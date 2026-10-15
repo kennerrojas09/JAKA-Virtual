@@ -1,0 +1,652 @@
+﻿<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>JAKA Virtual</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+<style>
+:root{--fd:'Bricolage Grotesque',system-ui,sans-serif;--bg:#0a0910;--bg2:#110f1a;--card:rgba(255,255,255,.035);--card2:rgba(255,255,255,.065);--bd:rgba(255,255,255,.08);--bd2:rgba(255,255,255,.17);--tx:#f5f3fc;--mu:#a49fb8;--a:#a37bff;--v:#8a5cff;--m:#f043b8;--ok:#4ade80;--wa:#fbbf24;--er:#fb7185;--g:linear-gradient(135deg,#8a5cff,#e03cc4);--l1:rgba(138,92,255,.2);--l2:rgba(240,67,184,.12);--sh:inset 0 1px 0 rgba(255,255,255,.06),0 24px 40px -24px rgba(0,0,0,.8);--e:cubic-bezier(.22,1,.36,1);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f6f4fc;--bg2:#fff;--card:rgba(255,255,255,.7);--card2:#fff;--bd:rgba(40,20,90,.1);--bd2:rgba(40,20,90,.2);--tx:#17122b;--mu:#645d7c;--a:#7c3aed;--l1:rgba(138,92,255,.14);--l2:rgba(240,67,184,.09);--sh:inset 0 1px 0 #fff,0 18px 34px -20px rgba(70,40,140,.28)}}
+:root[data-theme="light"]{--bg:#f6f4fc;--bg2:#fff;--card:rgba(255,255,255,.7);--card2:#fff;--bd:rgba(40,20,90,.1);--bd2:rgba(40,20,90,.2);--tx:#17122b;--mu:#645d7c;--a:#7c3aed;--l1:rgba(138,92,255,.14);--l2:rgba(240,67,184,.09);--sh:inset 0 1px 0 #fff,0 18px 34px -20px rgba(70,40,140,.28)}
+*{box-sizing:border-box;margin:0}html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+body{background:radial-gradient(60vw 55vh at 90% -8%,var(--l1),transparent),radial-gradient(50vw 50vh at -8% 105%,var(--l2),transparent),var(--bg);background-attachment:fixed;color:var(--tx);font:15px/1.6 'DM Sans',system-ui,sans-serif;min-height:100%;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.lg{font-family:var(--fd);letter-spacing:-.025em}
+svg.lucide{width:1.15em;height:1.15em;stroke-width:1.7;flex:none}.lucide-loader-2{animation:sp 1s linear infinite}
+button,input,select,textarea{font:inherit;color:inherit}a{color:inherit;text-decoration:none}:focus-visible{outline:2px solid var(--a);outline-offset:2px}
+.lg{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;white-space:nowrap}.lg span span{color:var(--a);font-weight:600}
+.lm{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:var(--g);color:#fff;font:800 17px var(--fd);font-style:normal;box-shadow:0 8px 22px -6px rgba(224,60,196,.7),inset 0 1px 0 rgba(255,255,255,.35);flex:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:12px;border:1px solid var(--bd2);background:var(--card);cursor:pointer;font-weight:600;transition:transform .16s var(--e),background .2s,border-color .2s,box-shadow .2s}
+.btn:hover{background:var(--card2);border-color:color-mix(in srgb,var(--a) 55%,transparent)}.btn:active{transform:scale(.97)}.btn.sm{padding:6px 12px;font-size:13px;border-radius:10px}.btn[disabled]{opacity:.7;cursor:progress}
+.pri,.pri:hover{background:var(--g);border:0;color:#fff;box-shadow:0 10px 28px -8px rgba(224,60,196,.6),inset 0 1px 0 rgba(255,255,255,.28)}.pri:hover{box-shadow:0 14px 34px -8px rgba(224,60,196,.8),inset 0 1px 0 rgba(255,255,255,.28)}
+.card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--bd);border-radius:20px;padding:20px;box-shadow:var(--sh)}
+.g{display:grid;gap:16px}.g3{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}.g2{grid-template-columns:repeat(auto-fit,minmax(310px,1fr))}.gs{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.row{display:flex;align-items:center;gap:10px}.sb{justify-content:space-between}.mu{color:var(--mu)}.sm{font-size:13px}.wrap{flex-wrap:wrap}
+.chip{display:inline-flex;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;color:var(--c,var(--mu));background:color-mix(in srgb,var(--c,var(--mu)) 14%,transparent);border:1px solid color-mix(in srgb,var(--c,var(--mu)) 35%,transparent)}
+.ib{display:grid;place-items:center;width:40px;height:40px;border-radius:13px;background:color-mix(in srgb,var(--c,var(--a)) 16%,transparent);border:1px solid color-mix(in srgb,var(--c,var(--a)) 30%,transparent);color:var(--c,var(--a));font-size:20px;flex:none}
+.bar{display:block;height:5px;border-radius:9px;background:var(--bd);overflow:hidden;margin-top:8px}.bar>span{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,var(--c,var(--v)),color-mix(in srgb,var(--c,var(--m)) 55%,#fff))}
+.cc{text-align:left;width:100%;cursor:pointer;color:inherit;padding:8px;transition:transform .28s var(--e),border-color .28s,box-shadow .28s}
+.cc:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--c) 55%,transparent);box-shadow:0 26px 44px -22px color-mix(in srgb,var(--c) 60%,transparent)}.cc:active{transform:scale(.985)}
+.cv{position:relative;height:108px;border-radius:14px;overflow:hidden;margin-bottom:14px;background:radial-gradient(90% 130% at 12% 0,color-mix(in srgb,var(--c) 70%,transparent),transparent 65%),linear-gradient(160deg,color-mix(in srgb,var(--c) 26%,var(--bg2)),var(--bg2))}
+.cv::after{content:"";position:absolute;right:-34px;bottom:-60px;width:160px;height:160px;border-radius:50%;border:1px solid rgba(255,255,255,.2);box-shadow:0 0 0 24px rgba(255,255,255,.05),0 0 0 48px rgba(255,255,255,.03)}
+.cvi{position:absolute;left:14px;bottom:12px;display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:21px;z-index:1}
+.cvp{position:absolute;right:12px;top:12px;padding:2px 10px;border-radius:99px;font:600 12px 'DM Sans';background:rgba(0,0,0,.35);color:#fff;z-index:1}.cb{padding:0 8px 8px}.cb b{font-family:var(--fd);font-size:17px;letter-spacing:-.02em}
+.st{display:grid;gap:2px;justify-items:start}.st .ib{margin-bottom:10px}.st b{font:700 32px/1.1 var(--fd);letter-spacing:-.03em}
+.hh{position:relative;overflow:hidden;border-radius:26px;padding:30px;border:1px solid var(--bd);display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:16px;background:radial-gradient(70% 150% at 100% 0,rgba(240,67,184,.24),transparent 60%),radial-gradient(60% 130% at 0 100%,rgba(138,92,255,.28),transparent 60%),var(--bg2)}
+.hh h1{font-size:clamp(28px,4.2vw,42px);line-height:1.1;margin-bottom:6px}
+/* landing */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;gap:20px;padding:14px max(20px,5vw);background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--bd)}
+.nav nav{display:flex;gap:24px;margin-left:auto;color:var(--mu)}.nav nav a{transition:color .2s}.nav nav a:hover{color:var(--tx)}
+.hero{position:relative;overflow:hidden;padding:84px max(20px,5vw) 96px;display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center;min-height:86vh}
+.hero::before{content:"";position:absolute;right:-12%;top:-25%;width:62vw;height:62vw;background:radial-gradient(closest-side,rgba(138,92,255,.4),transparent);pointer-events:none}
+.hero::after{content:"";position:absolute;left:30%;bottom:-40%;width:50vw;height:50vw;background:radial-gradient(closest-side,rgba(240,67,184,.26),transparent);pointer-events:none}
+.hero>*{position:relative;z-index:1}.hero h1{font-size:clamp(44px,6.4vw,84px);line-height:1;margin-bottom:22px;background:linear-gradient(180deg,#fff 30%,#cdbbff);-webkit-background-clip:text;background-clip:text;color:transparent}
+:root[data-theme="light"] .hero h1{background:linear-gradient(180deg,#17122b,#5b34c9);-webkit-background-clip:text;background-clip:text}
+.hero p{font-size:19px;color:var(--mu);max-width:46ch;margin-bottom:30px}.hero .row{gap:12px}
+.hero>div:first-child>*{animation:up .8s var(--e) both}.hero>div:first-child>:nth-child(2){animation-delay:.1s}.hero>div:first-child>:nth-child(3){animation-delay:.2s}.stage{animation:fade 1s .25s both}
+.stage{position:relative;height:440px}.pv{position:absolute;top:8%;left:4%;width:84%;padding:18px;border-radius:24px;border:1px solid var(--bd2);background:linear-gradient(180deg,var(--card2),var(--card));box-shadow:0 50px 90px -34px rgba(138,92,255,.6),inset 0 1px 0 rgba(255,255,255,.1);will-change:transform}
+.wd{display:flex;gap:6px;margin-bottom:14px}.wd i{width:9px;height:9px;border-radius:50%;background:var(--bd2)}.pvh{display:grid;margin-bottom:10px}.pvh b{font:700 18px var(--fd)}
+.pvr{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--bd)}.pvr>div{flex:1}
+.fl{position:absolute;width:auto;padding:14px 16px;will-change:transform}.f1{right:0;top:0}.f2{left:0;bottom:2%}
+.ring{width:72px;height:72px;border-radius:50%;background:conic-gradient(var(--v),var(--m) 78%,var(--bd) 0);display:grid;place-items:center}.ring b{display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:var(--bg2);font-family:var(--fd)}
+.sec{padding:76px max(20px,5vw)}.sec h2{font-size:clamp(28px,4vw,44px);margin-bottom:12px;line-height:1.1}.sec>p{color:var(--mu);margin-bottom:34px;max-width:56ch;font-size:17px}
+.bento{grid-template-columns:repeat(4,1fr)}.bento>:nth-child(1),.bento>:nth-child(4){grid-column:span 2}.bento .card{padding:26px}
+.foot{border-top:1px solid var(--bd);padding:44px max(20px,5vw);display:grid;grid-template-columns:2fr 1fr 1fr;gap:24px;color:var(--mu)}.foot a{display:block;margin-bottom:6px;cursor:pointer}.foot a:hover{color:var(--tx)}
+.rv{opacity:0;transform:translateY(16px);transition:opacity .6s var(--e),transform .6s var(--e)}.rv.in{opacity:1;transform:none}
+/* app */
+.app{display:flex;min-height:100dvh}.side{width:264px;flex:none;position:sticky;top:0;height:100dvh;padding:18px 12px;background:color-mix(in srgb,var(--bg2) 88%,transparent);border-right:1px solid var(--bd);transition:width .3s var(--e);overflow:hidden;display:flex;flex-direction:column;gap:3px;z-index:30}
+.side.c{width:76px}.side.c .tx{display:none}.side .lg{padding:4px 8px 22px}
+.nv{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:12px;color:var(--mu);cursor:pointer;border:0;background:0;width:100%;text-align:left;white-space:nowrap;position:relative;transition:background .2s,color .2s}
+.nv:hover{background:var(--card2);color:var(--tx)}.nv.on{background:linear-gradient(90deg,rgba(138,92,255,.24),rgba(240,67,184,.08));color:var(--tx)}.nv.on svg{color:var(--m)}
+.nv.on::before{content:"";position:absolute;left:0;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--g)}
+.badge{background:var(--g);color:#fff;border-radius:99px;font-size:11px;padding:0 7px;margin-left:auto;font-weight:600}
+.me{display:flex;align-items:center;gap:10px;padding:10px;border-radius:14px;border:1px solid var(--bd);background:var(--card);cursor:pointer;margin-bottom:4px;text-align:left;width:100%;white-space:nowrap}.me b{display:block;font-size:14px;line-height:1.2}
+.av{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--g);color:#fff;font:700 13px var(--fd);flex:none}
+.mn{flex:1;min-width:0}.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;display:flex;gap:10px;align-items:center;padding:12px 28px;background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--bd)}
+label.sr{display:flex;align-items:center;gap:10px;flex:1;max-width:440px;margin:0;padding:0 14px;border-radius:99px;border:1px solid var(--bd);background:var(--card);color:var(--mu);transition:border-color .2s,box-shadow .2s}
+label.sr:focus-within{border-color:var(--a);box-shadow:0 0 0 4px rgba(138,92,255,.18)}label.sr input{flex:1;min-width:0;border:0;background:0;padding:9px 0;outline:0}
+.ico{position:relative;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;border:1px solid var(--bd);background:var(--card);cursor:pointer;transition:background .2s,transform .16s var(--e)}.ico:hover{background:var(--card2)}.ico:active{transform:scale(.94)}
+.pd{position:absolute;top:8px;right:9px;width:8px;height:8px;border-radius:50%;background:var(--m);box-shadow:0 0 0 2px var(--bg),0 0 10px var(--m)}
+#view{padding:28px;max-width:1220px;margin:auto}.vw{animation:up .35s var(--e) both}h1.t{font-size:30px;margin-bottom:4px}.h3{font-size:18px;margin:30px 0 14px;font-family:var(--fd)}
+.vw .g>*{animation:up .5s var(--e) both}.vw .g>:nth-child(2){animation-delay:.05s}.vw .g>:nth-child(3){animation-delay:.1s}.vw .g>:nth-child(4){animation-delay:.15s}.vw .g>:nth-child(5){animation-delay:.2s}.vw .g>:nth-child(n+6){animation-delay:.25s}
+.li{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--bd)}.li:last-child{border:0}.li>div:nth-child(2){flex:1;min-width:0}
+select,.fi{padding:9px 12px;border-radius:12px;border:1px solid var(--bd2);background:var(--bg2);width:auto}.fi{width:100%;margin-top:6px}label{display:block;margin-bottom:12px;font-size:13px;color:var(--mu)}
+.emp{text-align:center;padding:42px 16px;color:var(--mu)}.emp svg{width:42px;height:42px;margin-bottom:12px;color:var(--a)}.emp b{display:block;color:var(--tx);margin-bottom:4px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}.dy{min-height:68px;border-radius:14px;border:1px solid var(--bd);padding:8px;cursor:pointer;background:var(--card);font-size:13px;text-align:left;transition:border-color .2s,background .2s,transform .16s var(--e)}.dy:hover{border-color:var(--a);background:var(--card2)}.dy:active{transform:scale(.96)}
+.dy.t{background:linear-gradient(135deg,rgba(138,92,255,.34),rgba(240,67,184,.2));border-color:var(--bd2)}.dy.z{visibility:hidden}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin:4px 3px 0 0;background:var(--c);box-shadow:0 0 8px var(--c)}
+.ov{position:fixed;inset:0;background:rgba(5,3,12,.65);backdrop-filter:blur(5px);display:grid;place-items:center;z-index:50;padding:16px;animation:fade .2s}
+.md{width:min(480px,100%);max-height:85dvh;overflow:auto;background:var(--bg2);border:1px solid var(--bd2);border-radius:22px;padding:26px;box-shadow:0 40px 80px -20px rgba(0,0,0,.7),0 0 60px -20px rgba(138,92,255,.5);animation:up .25s var(--e)}
+#ts{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));display:grid;gap:8px;z-index:60}
+.ts{background:var(--bg2);border:1px solid var(--bd2);border-left:3px solid var(--c);border-radius:14px;padding:11px 15px;box-shadow:0 18px 36px -14px rgba(0,0,0,.6);max-width:340px;animation:up .3s var(--e)}
+details{padding:12px 0;border-bottom:1px solid var(--bd)}summary{cursor:pointer;font-weight:600}details p{margin-top:8px;color:var(--mu)}
+@keyframes up{from{opacity:0;transform:translateY(12px)}}@keyframes fade{from{opacity:0}}@keyframes sp{to{transform:rotate(360deg)}}
+@media(max-width:860px){.hero{grid-template-columns:1fr;padding-top:50px}.stage{height:360px}.nav nav{display:none}.nav{justify-content:space-between}.foot{grid-template-columns:1fr}.bento{grid-template-columns:1fr 1fr}.bento>:nth-child(n){grid-column:auto}
+.side{position:fixed;left:0;transform:translateX(-102%);width:264px;transition:transform .3s var(--e)}.side.open{transform:none;box-shadow:0 0 80px rgba(0,0,0,.6)}.side.c{width:264px}.side.c .tx{display:inline}.top{padding:10px 14px}#view{padding:16px}.hh{padding:22px}}
+@media(max-width:520px){.bento{grid-template-columns:1fr}.cal{gap:4px}.dy{min-height:54px;padding:5px}}
+@media(prefers-reduced-motion:reduce){*,::before,::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.rv{opacity:1;transform:none}}
+.ci{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;transition:transform .6s var(--e)}
+.cv{height:auto;aspect-ratio:16/9}.cv::after{inset:auto 0 0 0;width:auto;height:65%;border:0;border-radius:0;box-shadow:none;background:linear-gradient(transparent,rgba(8,6,14,.9))}
+.cc:hover .ci,.cn:hover .ci{transform:scale(1.05)}
+.bar>span{transform-origin:left;animation:gr .9s .15s var(--e) both}@keyframes gr{from{transform:scaleX(0)}}
+.bn{position:relative;min-height:150px;border-radius:24px;overflow:hidden;border:1px solid var(--bd2);margin-bottom:18px;display:flex;align-items:flex-end;padding:26px 28px;background:linear-gradient(135deg,#2a1450,#0a0910)}
+.bn::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,6,14,.94) 12%,rgba(8,6,14,.6) 55%,rgba(8,6,14,.1))}.bn>div{position:relative;z-index:1;color:#f5f3fc}.bn h1{font-size:clamp(26px,4vw,38px);line-height:1.1}.bn p{color:#cfc9e4;margin-top:4px;max-width:46ch}
+.cn{position:relative;overflow:hidden;min-height:220px;border-radius:22px;border:1px solid var(--bd2);padding:22px;display:flex;flex-direction:column;justify-content:flex-end;text-align:left;cursor:pointer;color:#f5f3fc;background:#14101f;transition:transform .28s var(--e),box-shadow .28s,border-color .28s}
+.cn::after{display:none}.cn>*{position:relative;z-index:1}.cn>.ci{position:absolute;z-index:0}.cn h3{font-size:22px;margin:8px 0 2px}
+.cn .go{position:absolute;right:18px;top:18px;display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:99px;background:var(--g);font-weight:600;font-size:13px;box-shadow:0 8px 20px -6px rgba(224,60,196,.7)}
+.cn:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--c) 60%,transparent);box-shadow:0 28px 50px -22px color-mix(in srgb,var(--c) 70%,transparent)}.cn:active{transform:scale(.985)}
+.tb{position:relative;width:64px;height:44px;border-radius:12px;overflow:hidden;flex:none;background:var(--bg2);border:1px solid var(--bd)}.tb>span{position:absolute;inset:0;z-index:1;display:grid;place-items:center;background:rgba(8,6,14,.42);color:#fff}
+.pi{display:block;width:100%;aspect-ratio:2/1;object-fit:cover;border-radius:14px;margin-bottom:8px}.stage{height:500px}
+.hh .hi{display:none}.hh>div,.hh>button{position:relative;z-index:1}
+@media(max-width:860px){.stage{height:400px}.bn{padding:20px}}
+
+/* DESIGNPRO-inspired cinematic redesign for JAKA Virtual */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+:root{--fd:'Inter',system-ui,sans-serif;--bg:#050505;--bg2:#0b0b0d;--card:rgba(255,255,255,.035);--card2:rgba(255,255,255,.07);--bd:rgba(255,255,255,.1);--bd2:rgba(255,255,255,.2);--tx:#fff;--mu:rgba(255,255,255,.66);--a:#64CEFB;--v:#64CEFB;--m:#fff;--g:linear-gradient(110deg,#64CEFB,#fff 48%,#64CEFB);--l1:rgba(100,206,251,.12);--l2:rgba(255,255,255,.04)}
+body{font-family:Inter,system-ui,sans-serif;background:#050505;color:#fff}
+.nav{max-width:1280px;margin:0 auto;width:100%;border:0;background:transparent;padding:22px 32px;backdrop-filter:none}
+.nav nav{border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:12px 22px;gap:20px;color:rgba(255,255,255,.78);font-size:13px}
+.nav .lg{font-size:20px}.nav .lm{border-radius:50%;width:34px;height:34px;background:transparent;border:2px solid white;box-shadow:none;position:relative;font-size:0}.nav .lm:after{content:'';width:10px;height:10px;border-radius:50%;background:white;position:absolute}
+.hero{min-height:calc(100svh - 78px);height:auto;padding:34px max(24px,calc((100vw - 1216px)/2)) 70px;grid-template-columns:1fr;gap:0;display:flex;flex-direction:column;justify-content:space-between;isolation:isolate}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-3;filter:brightness(.47) saturate(.72)}
+.hero-shade{position:absolute;inset:0;z-index:-2;background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.12) 35%,rgba(0,0,0,.68)),linear-gradient(90deg,rgba(0,0,0,.38),transparent 80%)}
+.hero::before,.hero::after{display:none}.hero>*{z-index:1}.hero-topline{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;width:100%;margin-bottom:auto}.hero-topline p{max-width:410px;color:rgba(255,255,255,.78);font-size:14px;line-height:1.7}.hero-topline p:last-child{text-align:right;justify-self:end;font-size:16px}.hero-topline strong{font-size:24px;color:#fff;letter-spacing:-.04em}
+.hero-main{width:100%;text-align:center;padding:8vh 0 3vh}.hero-kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.8);margin-bottom:22px}.hero h1{font-size:clamp(56px,9.5vw,132px);line-height:.84;letter-spacing:-.085em;font-weight:500;margin:0 auto 32px;background:none;color:#fff;-webkit-text-fill-color:#fff;display:flex;flex-direction:column;align-items:center;gap:8px}.hero h1 .shine{background:linear-gradient(100deg,#64CEFB 0%,#64CEFB 35%,#fff 48%,#64CEFB 60%,#64CEFB 100%);background-size:220% 100%;background-position:200% center;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:shineSweep 3s linear infinite}
+@keyframes shineSweep{to{background-position:-20% center}}
+.hero .hero-copy{font-size:15px;color:rgba(255,255,255,.75);max-width:52ch;margin:0 auto 26px;line-height:1.7}.hero .row{justify-content:center}.hero .btn{border-radius:999px;padding:14px 25px;background:#fff;color:#080808;border:1px solid #fff;font-size:14px}.hero .btn:hover{background:#e8e8e8;color:#000;transform:translateY(-2px)}.hero .btn:hover .arrow{transform:translateX(4px)}.hero .btn.pri{background:#fff;color:#050505;box-shadow:none}.hero .btn:not(.pri){background:rgba(0,0,0,.2);color:#fff;border-color:rgba(255,255,255,.35);backdrop-filter:blur(12px)}
+.hero .stage{width:min(640px,90%);height:200px;margin:10px auto 0;opacity:.95}.hero .pv{top:0;left:10%;width:80%;padding:12px;border-radius:18px;background:rgba(10,10,12,.58);backdrop-filter:blur(22px);box-shadow:0 25px 80px rgba(0,0,0,.5);border-color:rgba(255,255,255,.22)}.hero .pv .pi{aspect-ratio:3.4/1;object-fit:cover;opacity:.92}.hero .fl{background:rgba(10,10,12,.7);backdrop-filter:blur(18px);border-color:rgba(255,255,255,.2);box-shadow:0 20px 60px rgba(0,0,0,.4)}.hero .ring{background:conic-gradient(#64CEFB,#fff 78%,rgba(255,255,255,.15) 0)}
+.sec{max-width:1280px;margin:0 auto;padding:90px 32px}.sec h2{font-size:clamp(32px,5vw,58px);letter-spacing:-.065em}.sec>p{font-size:16px}.card{border-radius:22px;background:rgba(255,255,255,.045);border-color:rgba(255,255,255,.12);box-shadow:0 20px 50px rgba(0,0,0,.16)}.cv{height:180px;border-radius:16px;background:#151515}.cv img.ci{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:.88}.cv:after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.5),transparent 75%)}.cvi{z-index:2;background:rgba(0,0,0,.3);backdrop-filter:blur(10px)}.cc:hover{border-color:rgba(255,255,255,.35)}.foot{max-width:1280px;margin:auto;padding:48px 32px}
+.hh{border-radius:28px;min-height:220px;padding:34px;background:#0d0d0f}.hh:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.92),rgba(0,0,0,.5));pointer-events:none}.hh>*{z-index:1}.hh .hi{opacity:.18}.hh h1{font-size:clamp(32px,5vw,58px);letter-spacing:-.07em}.side{background:#080809}.nv.on{background:rgba(255,255,255,.1)}.nv.on svg{color:#64CEFB}.nv.on::before{background:#64CEFB}.pri,.pri:hover{background:#fff;color:#000;box-shadow:none}.ib{color:#fff}.bar>span{background:linear-gradient(90deg,#64CEFB,#fff)}
+@media(max-width:860px){.nav{padding:16px 18px}.nav nav{display:none}.nav .row .btn:first-child{display:none}.hero{min-height:calc(100svh - 66px);padding:25px 22px 44px}.hero-topline{grid-template-columns:1fr;gap:12px}.hero-topline p:last-child{text-align:left;justify-self:start}.hero-topline strong{font-size:22px}.hero-main{padding:9vh 0 2vh}.hero h1{font-size:clamp(54px,13vw,86px)}.hero-kicker{font-size:10px}.hero .hero-copy{font-size:14px}.hero .stage{height:165px;width:100%}.hero .pv{left:8%;width:84%}.hero .fl{padding:10px;font-size:12px}.sec{padding:64px 20px}.cv{height:155px}.foot{grid-template-columns:1fr 1fr;padding:35px 20px}}
+@media(prefers-reduced-motion:reduce){.hero h1 .shine{animation:none;background-position:center}.hero *{scroll-behavior:auto!important;transition:none!important}}
+
+
+/* JAKA auth experience */
+.auth-grid{display:grid;grid-template-columns: minmax(260px,.92fr) minmax(320px,1.08fr);width:min(960px,94vw);max-height:92vh;overflow:auto;background:#050505;border:1px solid rgba(255,255,255,.12);border-radius:24px;box-shadow:0 28px 100px #000b;color:#fff}
+.auth-visual{position:relative;min-height:610px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:36px 30px;background:#050505}
+.auth-visual video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}.auth-visual-content{position:relative;z-index:1;text-shadow:0 1px 12px rgba(0,0,0,.24)}
+.auth-visual-content{position:relative;z-index:1;display:grid;gap:22px}
+.auth-brand{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:700;letter-spacing:-.04em}
+.auth-brand-mark{width:30px;height:30px;border:3px solid white;border-radius:50%;display:grid;place-items:center;font-size:0}.auth-brand-mark:after{content:'';width:9px;height:9px;background:#fff;border-radius:50%}
+.auth-visual h2{font-size:38px;line-height:1.05;letter-spacing:-.05em;color:white}.auth-visual p{font-size:14px;line-height:1.65;color:rgba(255,255,255,.82);max-width:30ch}
+.auth-steps{display:grid;gap:9px}.auth-step{display:flex;align-items:center;gap:12px;border:1px solid rgba(255,255,255,.16);padding:11px 13px;border-radius:13px;background:rgba(0,0,0,.34);backdrop-filter:blur(8px);font-size:13px}.auth-step.active{background:#fff;color:#111;border-color:#fff}.auth-step b{width:25px;height:25px;display:grid;place-items:center;border-radius:50%;background:rgba(255,255,255,.14);font-size:12px}.auth-step.active b{background:#111;color:#fff}
+.auth-form{padding:40px clamp(22px,4vw,48px);display:flex;flex-direction:column;justify-content:center;min-width:0}.auth-form h3{font-size:28px;letter-spacing:-.04em;margin:0 0 5px}.auth-sub{font-size:13px;color:rgba(255,255,255,.48);margin-bottom:26px}.auth-socials{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}.auth-social{height:44px;border:1px solid rgba(255,255,255,.12);border-radius:11px;background:#050505;color:#fff;display:flex;justify-content:center;align-items:center;gap:9px;font-size:13px;cursor:pointer}.auth-social:hover{background:#171717}.auth-divider{display:flex;align-items:center;gap:13px;color:rgba(255,255,255,.38);font-size:10px;text-transform:uppercase;letter-spacing:.2em;margin-bottom:20px}.auth-divider:before,.auth-divider:after{content:'';height:1px;background:rgba(255,255,255,.12);flex:1}.auth-fields{display:grid;grid-template-columns:1fr 1fr;gap:14px 12px}.auth-field{display:grid;gap:7px;min-width:0}.auth-field.full{grid-column:1/-1}.auth-field label{font-size:12px;font-weight:600;color:#f5f5f5}.auth-field input{width:100%;height:44px;border:1px solid transparent;border-radius:11px;background:#1a1a1a;color:#fff;padding:0 13px;outline:none;font-size:13px}.auth-field input::placeholder{color:rgba(255,255,255,.25)}.auth-field input:focus{border-color:rgba(255,255,255,.3);box-shadow:0 0 0 3px rgba(255,255,255,.06)}.auth-pass{position:relative}.auth-pass input{padding-right:42px}.auth-eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:0;color:rgba(255,255,255,.5);cursor:pointer}.auth-help{font-size:10px;color:rgba(255,255,255,.38)}.auth-submit{height:52px;width:100%;margin-top:20px;border:0;border-radius:11px;background:#fff;color:#050505;font-weight:700;cursor:pointer;transition:transform .2s,background .2s}.auth-submit:hover{background:#e9e9e9}.auth-submit:active{transform:scale(.985)}.auth-footer{text-align:center;font-size:12px;color:rgba(255,255,255,.42);margin-top:22px}.auth-footer button{background:none;border:0;color:white;font-weight:600;cursor:pointer}.auth-close{position:absolute;z-index:3;right:12px;top:12px;border:1px solid #ffffff35;background:#0008;color:white;border-radius:50%;width:34px;height:34px;cursor:pointer}
+@media(max-width:760px){.auth-grid{display:block;width:min(500px,94vw)}.auth-visual{display:none}.auth-form{padding:32px 22px}.auth-form h3{font-size:25px}.auth-fields{gap:12px 9px}}
+
+
+/* Login de pantalla completa: primero se autentica y después se abre el aula. */
+.auth-overlay{padding:0!important;background:#000!important;backdrop-filter:none!important;place-items:stretch!important;}
+.auth-overlay .md{width:100%!important;height:100dvh!important;max-height:100dvh!important;max-width:none!important;overflow:auto!important;padding:0!important;border:0!important;border-radius:0!important;background:#000!important;box-shadow:none!important;}
+.auth-overlay .auth-grid{width:100%!important;height:100%!important;min-height:100dvh!important;max-height:none!important;grid-template-columns:52% 48%!important;overflow:auto!important;border:0!important;border-radius:0!important;box-shadow:none!important;}
+.auth-overlay .auth-visual{min-height:100dvh!important;padding:48px clamp(28px,5vw,72px)!important;}
+.auth-overlay .auth-form{min-height:100dvh;padding:44px clamp(24px,5vw,80px)!important;position:relative;}
+.auth-overlay .auth-close{display:none!important;}
+.auth-overlay .auth-fields{grid-template-columns:1fr!important;}
+.auth-overlay .auth-field{grid-column:1/-1!important;}
+.auth-overlay .auth-form h3{font-size:clamp(28px,3vw,38px)!important;}
+.auth-overlay .auth-socials{gap:12px!important;}
+.auth-overlay :is(button,input,a):focus-visible{outline:2px solid #8ce8f0!important;outline-offset:3px!important;}
+/* En el aula se prioriza el contenido académico: se quitan miniaturas y banners fotográficos. */
+.app .ci,.app .bn img,.app .hi{display:none!important;}
+.app .cv{height:76px!important;aspect-ratio:auto!important;background:#171719!important;}
+.app .cv:after{display:none!important;}
+.app .cn{background:#151517!important;}
+@media(max-width:760px){.auth-overlay .auth-grid{display:block!important;width:100%!important;min-height:100dvh!important;height:auto!important;}.auth-overlay .auth-visual{display:none!important;}.auth-overlay .auth-form{min-height:100dvh!important;padding:38px 22px!important;max-width:560px;margin:auto;}.auth-overlay .auth-form h3{font-size:28px!important;}.auth-overlay .auth-sub{margin-bottom:22px;}}
+@media(max-width:360px){.auth-overlay .auth-form{padding:30px 16px!important;}.auth-overlay .auth-socials{gap:8px!important;}.auth-overlay .auth-social{font-size:12px!important;}}
+
+/* ===== JAKA DesignPro-inspired hero, adapted to the existing campus ===== */
+.jaka-design-nav{position:absolute!important;z-index:20;top:0;left:0;width:100%;max-width:none!important;padding:22px clamp(20px,4vw,64px)!important;display:flex;align-items:center;gap:22px;background:transparent!important;border:0!important}
+.jaka-design-nav .lg{flex-shrink:0}
+.jaka-design-links{display:flex;align-items:center;gap:clamp(8px,1.6vw,24px);margin-left:auto;padding:10px 18px;border:1px solid rgba(255,255,255,.23);border-radius:999px;background:rgba(0,0,0,.18);backdrop-filter:blur(12px)}
+.jaka-design-links a{color:rgba(255,255,255,.82);font-size:13px;white-space:nowrap;transition:color .2s}
+.jaka-design-links a:hover{color:#fff}
+.jaka-design-actions{gap:10px;flex-shrink:0}
+.jaka-design-hero{height:100svh!important;min-height:650px;overflow:hidden;isolation:isolate;display:flex;align-items:stretch;padding:0!important;background:#000!important}
+.jaka-design-hero .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.jaka-design-hero .hero-shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(0,0,0,.60) 0%,rgba(0,0,0,.24) 48%,rgba(0,0,0,.12) 100%),linear-gradient(0deg,rgba(0,0,0,.38),transparent 28%)!important}
+.jaka-design-content{position:relative;z-index:2;width:100%;max-width:1280px;margin:auto;padding:112px clamp(20px,4vw,64px) 28px;display:flex;flex-direction:column;justify-content:space-between;min-height:100%;color:#fff}
+.jaka-design-top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;color:rgba(255,255,255,.83);font-size:clamp(13px,1.1vw,16px);line-height:1.6}
+.jaka-design-top>p:first-child{max-width:360px}
+.jaka-design-stat{text-align:right;max-width:300px}
+.jaka-design-stat strong{font-size:clamp(17px,1.5vw,22px);font-weight:500;color:#fff}
+.jaka-design-main{width:min(780px,100%);margin:auto 0;padding:40px 0 60px;animation:jakaHeroIn .9s cubic-bezier(.16,1,.3,1) both}
+.jaka-design-main .hero-kicker{font-size:12px;letter-spacing:.17em;text-transform:uppercase;color:rgba(255,255,255,.84);margin-bottom:18px}
+.jaka-design-main h1{display:flex;flex-direction:column;font-size:clamp(58px,9vw,124px)!important;line-height:.86!important;letter-spacing:-.075em!important;font-weight:500!important;margin:0 0 26px!important;max-width:900px}
+.jaka-design-main h1>span{display:block}
+.jaka-design-main h1 .shine{background:linear-gradient(110deg,#fff 8%,#64cefb 35%,#fff 52%,#64cefb 70%,#fff 90%);background-size:220% auto;-webkit-background-clip:text;background-clip:text;color:transparent!important;animation:jakaShine 4s linear infinite}
+.jaka-design-main .hero-copy{max-width:560px;color:rgba(255,255,255,.84);font-size:clamp(14px,1.25vw,17px);line-height:1.7;margin:0 0 28px}
+.jaka-design-cta{gap:12px}
+.jaka-design-cta .btn{border-radius:999px;padding:14px 25px;min-height:48px;font-size:14px;transition:background .25s,color .25s,transform .25s,border-color .25s}
+.jaka-design-cta .btn.pri{background:#fff!important;color:#050505!important;border:1px solid #fff!important}
+.jaka-design-cta .btn.pri:hover{background:#64cefb!important;border-color:#64cefb!important}
+.jaka-design-cta .btn .arrow{display:inline-block;margin-left:8px;transition:transform .25s}
+.jaka-design-cta .btn:hover .arrow{transform:translateX(5px)}
+.jaka-design-cta .jaka-secondary{background:rgba(0,0,0,.16)!important;color:#fff!important;border:1px solid rgba(255,255,255,.55)!important}
+.jaka-design-cta .jaka-secondary:hover{background:rgba(255,255,255,.12)!important}
+.jaka-design-bottom{display:flex;justify-content:space-between;gap:16px;font-size:10px;letter-spacing:.15em;color:rgba(255,255,255,.72)}
+.jaka-design-bottom i{color:#64cefb;font-style:normal}
+.jaka-menu-toggle{display:none;background:transparent;border:1px solid rgba(255,255,255,.35);border-radius:50%;width:42px;height:42px;color:#fff;font-size:20px;cursor:pointer}
+@keyframes jakaShine{to{background-position:220% center}}
+@keyframes jakaHeroIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:1023px){.jaka-design-nav{gap:12px}.jaka-design-links{display:none;position:absolute;top:76px;left:20px;right:20px;margin:0;padding:18px;border-radius:18px;flex-direction:column;align-items:flex-start;background:rgba(5,8,15,.94);border-color:rgba(255,255,255,.18)}.jaka-design-links.mobile-open{display:flex}.jaka-menu-toggle{display:flex;align-items:center;justify-content:center;margin-left:auto}.jaka-design-actions .btn:first-child{display:none}.jaka-design-content{padding-top:110px}.jaka-design-main h1{font-size:clamp(56px,11vw,92px)!important}}
+@media(max-width:600px){.jaka-design-nav{padding:16px 18px!important}.jaka-design-nav .lg{font-size:15px}.jaka-design-actions .btn{font-size:11px;padding:9px 12px}.jaka-design-content{padding:100px 20px 22px}.jaka-design-top{font-size:12px}.jaka-design-stat{max-width:155px}.jaka-design-stat strong{font-size:14px}.jaka-design-main{padding:34px 0}.jaka-design-main h1{font-size:clamp(52px,15vw,76px)!important;line-height:.9!important}.jaka-design-main .hero-copy{font-size:14px;max-width:390px}.jaka-design-cta{align-items:flex-start;flex-direction:column}.jaka-design-cta .btn{padding:12px 20px}.jaka-design-bottom{font-size:8px;letter-spacing:.09em;flex-direction:column;gap:7px}}
+@media(prefers-reduced-motion:reduce){.jaka-design-main,.jaka-design-main h1 .shine{animation:none!important}.jaka-design-cta .btn,.jaka-design-cta .btn .arrow{transition:none!important}}
+
+/* JAKA Virtual: DesignPro cinematic background integrated into the actual logged-in campus */
+.mn{position:relative;isolation:isolate;overflow:hidden;background:#05080d}
+.campus-atmosphere{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:#05080d}
+.campus-atmosphere video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.56;filter:saturate(.82) contrast(1.06)}
+.campus-atmosphere-shade{position:absolute;inset:0;background:linear-gradient(110deg,rgba(3,7,14,.78),rgba(3,8,18,.42) 55%,rgba(4,6,14,.64)),radial-gradient(ellipse at 62% 30%,rgba(65,177,255,.16),transparent 48%)}
+.campus-jellies{position:absolute;width:min(66vw,760px);height:auto;right:2%;top:8%;opacity:.75;animation:jakaJellyFloat 10s ease-in-out infinite alternate}
+#view{position:relative;z-index:1;min-height:calc(100dvh - 64px)}
+.top{background:rgba(5,8,14,.44)!important;backdrop-filter:blur(18px)}
+.vw .card,.vw .stat,.vw .panel,.vw .tile,.vw .box{backdrop-filter:blur(12px)}
+@keyframes jakaJellyFloat{from{transform:translate3d(0,-8px,0) rotate(-1deg)}to{transform:translate3d(0,12px,0) rotate(1deg)}}
+@media(max-width:700px){.campus-jellies{width:95vw;right:-22%;top:12%;opacity:.45}.campus-atmosphere video{opacity:.38}}
+@media(prefers-reduced-motion:reduce){.campus-jellies{animation:none}}
+
+
+/* Scoped enhancement: only the “Todo tu semestre” section */
+#ventajas{padding-top:112px;padding-bottom:104px}
+#ventajas .semester-head{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(250px,.65fr);gap:48px;align-items:end;margin-bottom:42px}
+#ventajas .semester-eyebrow{display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.19em;font-weight:700;color:rgba(255,255,255,.66);margin-bottom:22px}
+#ventajas .semester-eyebrow span,#ventajas .semester-pulse{width:7px;height:7px;border-radius:50%;background:#64CEFB;box-shadow:0 0 16px #64CEFB;display:inline-block;flex:none}
+#ventajas h2{margin:0;line-height:.99;font-size:clamp(38px,5.4vw,68px);font-weight:500;letter-spacing:-.075em}
+#ventajas h2 span{color:#64CEFB}
+#ventajas .semester-lead{max-width:58ch;line-height:1.8;color:rgba(255,255,255,.68);margin-top:22px;font-size:15px}
+#ventajas .semester-note{display:flex;gap:15px;align-items:flex-start;padding:22px;border:1px solid rgba(100,206,251,.28);border-radius:20px;background:linear-gradient(135deg,rgba(100,206,251,.10),rgba(255,255,255,.025));box-shadow:inset 0 1px rgba(255,255,255,.06)}
+#ventajas .semester-note-icon{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;color:#64CEFB;background:rgba(100,206,251,.12);font-size:20px;flex:none}
+#ventajas .semester-note b{font-size:14px;font-weight:600}
+#ventajas .semester-note p{font-size:12px;line-height:1.65;color:rgba(255,255,255,.62);margin-top:7px}
+#ventajas .semester-flow{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px 24px;margin-bottom:22px;border:1px solid rgba(255,255,255,.12);border-radius:18px;background:rgba(255,255,255,.025)}
+#ventajas .semester-flow-item{display:flex;align-items:center;gap:13px;min-width:0}
+#ventajas .semester-flow-item>span{font-size:11px;color:#64CEFB;border:1px solid rgba(100,206,251,.35);border-radius:10px;padding:8px 9px}
+#ventajas .semester-flow-item b{display:block;font-size:13px;font-weight:600}
+#ventajas .semester-flow-item small{display:block;color:rgba(255,255,255,.55);font-size:11px;line-height:1.5;margin-top:4px;max-width:220px}
+#ventajas .semester-flow>i{font-style:normal;color:rgba(100,206,251,.75);font-size:20px}
+#ventajas .semester-cards{gap:18px;grid-template-columns:repeat(4,minmax(0,1fr))}
+#ventajas .semester-card{padding:23px;min-height:218px;display:flex;flex-direction:column;transition:transform .25s ease,border-color .25s ease,background .25s ease}
+#ventajas .semester-card:hover{transform:translateY(-5px);border-color:rgba(100,206,251,.42);background:rgba(100,206,251,.055)}
+#ventajas .semester-card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+#ventajas .semester-card-num{font-size:11px;color:rgba(255,255,255,.36);letter-spacing:.12em}
+#ventajas .semester-card h3{font-size:17px;line-height:1.3;letter-spacing:-.025em;margin:0 0 9px}
+#ventajas .semester-card p{font-size:13px;line-height:1.7;margin:0}
+#ventajas .semester-card-line{height:2px;width:38px;margin-top:auto;padding-top:22px;box-sizing:content-box;background:linear-gradient(90deg,#64CEFB,rgba(100,206,251,0));background-clip:content-box}
+#ventajas .semester-bottom{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:24px;font-size:10px;letter-spacing:.08em;color:rgba(255,255,255,.48)}
+#ventajas .semester-bottom>span:first-child{display:flex;align-items:center;gap:9px;letter-spacing:0;font-size:12px}
+#ventajas .semester-bottom b{color:#64CEFB;font-weight:500}
+@media(max-width:900px){#ventajas .semester-head{grid-template-columns:1fr;gap:24px}#ventajas .semester-note{max-width:460px}#ventajas .semester-cards{grid-template-columns:repeat(2,minmax(0,1fr))}#ventajas .semester-flow{align-items:flex-start;flex-direction:column}#ventajas .semester-flow>i{display:none}#ventajas .semester-flow-item small{max-width:none}}
+@media(max-width:520px){#ventajas{padding:62px 18px}#ventajas .semester-cards{grid-template-columns:1fr;gap:12px}#ventajas .semester-card{min-height:180px}#ventajas .semester-bottom{align-items:flex-start;flex-direction:column}#ventajas .semester-head{margin-bottom:28px}#ventajas .semester-lead{font-size:14px}}
+@media(prefers-reduced-motion:reduce){#ventajas .semester-card{transition:none}#ventajas .semester-card:hover{transform:none}}
+
+
+/* Ajuste solicitado: separación real entre los elementos de “Todo tu semestre” */
+#ventajas .semester-flow{
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  align-items:stretch;
+  gap:18px;
+  padding:22px;
+  margin:30px 0 34px;
+  overflow:visible;
+}
+#ventajas .semester-flow-item{
+  min-width:0;
+  padding:18px;
+  gap:14px;
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:16px;
+  background:rgba(255,255,255,.035);
+}
+#ventajas .semester-flow-item small{max-width:none;line-height:1.65}
+#ventajas .semester-flow>i{display:none}
+#ventajas .semester-cards{
+  display:grid !important;
+  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  gap:22px !important;
+  align-items:stretch;
+  margin-top:30px;
+}
+#ventajas .semester-cards>.semester-card,
+#ventajas .semester-cards>.semester-card:nth-child(n){
+  grid-column:auto !important;
+  position:relative;
+  min-width:0;
+  margin:0 !important;
+  padding:25px !important;
+  min-height:230px;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:20px;
+  background:rgba(18,23,32,.72);
+  box-sizing:border-box;
+}
+#ventajas .semester-card p{overflow-wrap:anywhere}
+#ventajas .semester-bottom{margin-top:32px;padding-top:20px;border-top:1px solid rgba(255,255,255,.10)}
+@media(max-width:1000px){
+ #ventajas .semester-cards{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:18px !important}
+ #ventajas .semester-flow{grid-template-columns:1fr;gap:12px}
+ #ventajas .semester-flow-item{padding:16px}
+}
+@media(max-width:520px){
+ #ventajas .semester-cards{grid-template-columns:1fr !important;gap:14px !important}
+ #ventajas .semester-cards>.semester-card{min-height:185px;padding:22px !important}
+ #ventajas .semester-flow{padding:14px;margin:22px 0 26px}
+ #ventajas .semester-bottom{gap:12px}
+}
+
+/* FIX FINAL: layout aislado para que los elementos no se superpongan */
+#ventajas{display:block!important;position:relative;overflow:visible!important}
+#ventajas .semester-head{display:grid!important;grid-template-columns:minmax(0,1.25fr) minmax(260px,.75fr)!important;gap:36px!important;align-items:center!important}
+#ventajas .semester-flow{display:grid!important;position:relative!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:20px!important;padding:0!important;margin:34px 0 38px!important;border:0!important;background:transparent!important;overflow:visible!important}
+#ventajas .semester-flow-item{display:flex!important;position:relative!important;align-items:flex-start!important;gap:14px!important;min-height:100px!important;padding:22px!important;border:1px solid rgba(255,255,255,.15)!important;border-radius:18px!important;background:rgba(17,22,32,.92)!important;box-shadow:0 12px 30px rgba(0,0,0,.14)!important;box-sizing:border-box!important}
+#ventajas .semester-flow-item>div{min-width:0!important;flex:1!important}
+#ventajas .semester-flow-item b{display:block!important;line-height:1.4!important;margin-bottom:5px!important}
+#ventajas .semester-flow-item small{display:block!important;white-space:normal!important;overflow-wrap:break-word!important;line-height:1.65!important;max-width:none!important}
+#ventajas .semester-cards{display:grid!important;position:relative!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:22px!important;align-items:stretch!important;margin:0!important;padding:0!important}
+#ventajas .semester-cards>.semester-card{display:flex!important;position:relative!important;inset:auto!important;float:none!important;grid-column:auto!important;grid-row:auto!important;align-self:stretch!important;min-width:0!important;width:auto!important;height:auto!important;min-height:235px!important;margin:0!important;padding:25px!important;transform:none!important;opacity:1!important;visibility:visible!important;overflow:visible!important;box-sizing:border-box!important;border:1px solid rgba(255,255,255,.16)!important;border-radius:20px!important;background:linear-gradient(145deg,rgba(25,31,43,.96),rgba(12,15,23,.96))!important}
+#ventajas .semester-card-top{display:flex!important;position:relative!important;justify-content:space-between!important;align-items:center!important;gap:12px!important;margin-bottom:24px!important}
+#ventajas .semester-card h3{display:block!important;position:relative!important;margin:0 0 10px!important;line-height:1.35!important;overflow-wrap:break-word!important}
+#ventajas .semester-card p{display:block!important;position:relative!important;line-height:1.7!important;overflow-wrap:break-word!important}
+#ventajas .semester-card-line{flex:none!important;margin-top:auto!important;padding-top:22px!important}
+#ventajas .semester-bottom{position:relative!important;display:flex!important;flex-wrap:wrap!important;gap:16px!important;margin-top:32px!important;padding-top:22px!important}
+@media(max-width:1050px){#ventajas .semester-cards{grid-template-columns:repeat(2,minmax(0,1fr))!important}#ventajas .semester-head{grid-template-columns:1fr!important}#ventajas .semester-note{max-width:none!important}}
+@media(max-width:700px){#ventajas .semester-flow{grid-template-columns:1fr!important;gap:12px!important;margin:26px 0!important}#ventajas .semester-flow-item{min-height:0!important;padding:18px!important}#ventajas .semester-cards{grid-template-columns:1fr!important;gap:14px!important}#ventajas .semester-cards>.semester-card{min-height:185px!important;padding:22px!important}#ventajas .semester-head{gap:22px!important}}
+
+
+/* FIX VISUAL REAL: tarjetas de la vista previa de asignaturas */
+#asignaturas{position:relative;isolation:isolate;overflow:visible!important}
+#asignaturas .g.g3{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:24px!important;align-items:stretch!important;margin-top:30px!important}
+#asignaturas .g.g3>.rv{display:block!important;position:relative!important;min-width:0!important;width:auto!important;min-height:0!important;opacity:1!important;transform:none!important;overflow:visible!important}
+#asignaturas .cc{display:flex!important;position:relative!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;gap:0!important;width:100%!important;min-width:0!important;height:auto!important;min-height:0!important;margin:0!important;padding:14px!important;overflow:hidden!important;text-align:left!important;white-space:normal!important;transform:none!important;opacity:1!important;box-sizing:border-box!important;border:1px solid rgba(255,255,255,.14)!important;border-radius:20px!important;background:linear-gradient(145deg,rgba(24,28,39,.98),rgba(13,15,23,.98))!important}
+#asignaturas .cc:hover{transform:translateY(-3px)!important;border-color:rgba(100,206,251,.45)!important}
+#asignaturas .cv{display:block!important;position:relative!important;flex:none!important;width:100%!important;height:112px!important;min-height:112px!important;margin:0 0 16px!important;overflow:hidden!important;border-radius:13px!important;background:radial-gradient(100% 120% at 10% 0,rgba(100,206,251,.23),transparent 65%),#151923!important}
+#asignaturas .cv:after{content:none!important;display:none!important}
+#asignaturas .cv .ci{display:none!important}
+#asignaturas .cvp{top:10px!important;right:10px!important;z-index:3!important;padding:3px 9px!important;font-size:11px!important}
+#asignaturas .cvi{left:12px!important;bottom:12px!important;z-index:3!important;width:38px!important;height:38px!important}
+#asignaturas .cb{display:flex!important;flex-direction:column!important;gap:5px!important;min-width:0!important;padding:0 2px 2px!important;white-space:normal!important}
+#asignaturas .cb b{display:block!important;font-size:17px!important;line-height:1.3!important;overflow-wrap:anywhere!important}
+#asignaturas .cb .mu{display:block!important;font-size:12px!important;line-height:1.5!important;overflow-wrap:anywhere!important}
+#asignaturas .bar{flex:none!important;width:100%!important;height:4px!important;margin-top:10px!important}
+@media(max-width:1050px){#asignaturas .g.g3{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:18px!important}}
+@media(max-width:600px){#asignaturas{padding-left:18px!important;padding-right:18px!important}#asignaturas .g.g3{grid-template-columns:1fr!important;gap:16px!important}#asignaturas .cc{padding:13px!important}#asignaturas .cv{height:96px!important;min-height:96px!important}}
+
+
+/* Calificaciones: mejoras aisladas; conserva identidad visual y fondo del campus */
+#view .grade-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:18px 0 24px}
+#view .grade-stat{padding:18px;border:1px solid var(--bd);border-radius:17px;background:linear-gradient(145deg,var(--card2),var(--card));min-width:0;transition:transform .2s var(--e),border-color .2s,box-shadow .2s}
+#view .grade-stat:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--a) 48%,var(--bd));box-shadow:0 12px 28px -22px var(--a)}
+#view .grade-stat .gs-label{display:flex;align-items:center;gap:8px;color:var(--mu);font-size:12px;margin-bottom:10px}
+#view .grade-stat strong{display:block;font:700 clamp(22px,2.4vw,30px)/1.1 var(--fd);letter-spacing:-.04em}
+#view .grade-stat small{display:block;color:var(--mu);font-size:11px;margin-top:7px}
+#view .grade-table-wrap{overflow:auto;border:1px solid var(--bd);border-radius:17px;background:var(--card)}
+#view .grade-table{width:100%;border-collapse:separate;border-spacing:0;min-width:690px}
+#view .grade-table th{padding:13px 16px;text-align:left;color:var(--mu);font-size:11px;text-transform:uppercase;letter-spacing:.08em;background:var(--card2);border-bottom:1px solid var(--bd);font-weight:700}
+#view .grade-table td{padding:15px 16px;border-bottom:1px solid var(--bd);font-size:13px;vertical-align:middle}
+#view .grade-table tbody tr:last-child td{border-bottom:0}
+#view .grade-table tbody tr{cursor:pointer;transition:background .18s}
+#view .grade-table tbody tr:hover{background:color-mix(in srgb,var(--a) 8%,transparent)}
+#view .grade-course{display:flex;align-items:center;gap:11px;min-width:220px}
+#view .grade-course-icon{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:color-mix(in srgb,var(--c) 17%,transparent);color:var(--c);flex:none}
+#view .grade-course b{display:block;font-size:13px;line-height:1.35}
+#view .grade-course small{display:block;color:var(--mu);font-size:11px;margin-top:3px}
+#view .grade-progress{height:5px;border-radius:99px;background:var(--bd2);overflow:hidden;margin-top:7px;min-width:75px}
+#view .grade-progress span{display:block;height:100%;border-radius:inherit;background:var(--g)}
+#view .grade-open{display:inline-flex;align-items:center;gap:5px;color:var(--a);font-weight:700;font-size:12px;white-space:nowrap}
+#view .grade-detail-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+#view .grade-detail-hero{padding:22px;border:1px solid var(--bd);border-radius:19px;background:linear-gradient(130deg,color-mix(in srgb,var(--c) 12%,var(--card)),var(--card));margin:16px 0 18px}
+#view .grade-detail-table{width:100%;border-collapse:separate;border-spacing:0;min-width:850px}
+#view .grade-detail-table th{font-size:11px;text-align:left;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;padding:12px;background:var(--card2);border-bottom:1px solid var(--bd)}
+#view .grade-detail-table td{padding:13px 12px;border-bottom:1px solid var(--bd);font-size:12px;vertical-align:top}
+#view .grade-detail-table tr:last-child td{border-bottom:0}
+#view .grade-detail-table td:first-child{font-weight:700;min-width:180px}
+#view .grade-type{display:inline-flex;border:1px solid var(--bd);border-radius:8px;padding:3px 7px;font-size:10px;color:var(--mu);white-space:nowrap}
+#view .grade-score{font:700 15px var(--fd)}
+#view .grade-score.pending{color:var(--wa);font-size:12px}
+#view .grade-comment{color:var(--mu);max-width:220px;line-height:1.5}
+#view .grade-detail-table .grade-total-row td{background:linear-gradient(100deg,color-mix(in srgb,var(--a) 12%,var(--card2)),var(--card2));border-top:1px solid color-mix(in srgb,var(--a) 38%,var(--bd));border-bottom:0;padding-top:16px;padding-bottom:16px}
+#view .grade-detail-table .grade-total-row td:first-child{color:var(--tx)}
+#view .grade-detail-table .grade-total-row td b{font-size:13px}
+
+#view .grade-note{border:1px solid var(--bd);border-radius:14px;padding:14px 16px;background:var(--card);color:var(--mu);font-size:12px;line-height:1.65}
+#view .grade-detail-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+@media(max-width:760px){#view .grade-summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}#view .grade-stat{padding:14px}#view .grade-detail-hero{padding:16px}}
+@media(max-width:390px){#view .grade-summary{grid-template-columns:1fr 1fr}#view .grade-stat strong{font-size:22px}}
+</style><style>
+/* JAKA Virtual — pulido del campus interior. La portada, su video y su navegación se conservan intactos. */
+.app #view{padding:clamp(22px,3vw,42px)!important;}
+.app .vw{width:100%;max-width:1500px;margin:0 auto;}
+.app .vw h1.t{font-size:clamp(30px,3vw,42px);line-height:1.08;letter-spacing:-.055em;margin:0 0 10px;}
+.app .vw .h3{font-size:clamp(19px,1.8vw,24px);line-height:1.2;letter-spacing:-.035em;margin:30px 0 15px;}
+.app .vw .g{gap:22px!important;align-items:stretch;}
+.app .vw .g>*{min-width:0;}
+.app .vw .g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,245px),1fr))!important;}
+.app .vw .g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr))!important;}
+.app .vw .gs{grid-template-columns:repeat(auto-fit,minmax(min(100%,185px),1fr))!important;}
+.app .vw .card{padding:clamp(18px,2vw,25px)!important;border-radius:22px!important;border-color:rgba(178,208,255,.17)!important;background:linear-gradient(145deg,rgba(24,34,50,.83),rgba(10,14,23,.76))!important;box-shadow:0 16px 40px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.035)!important;}
+.app .vw .card+.card{margin-top:14px;}
+.app .vw .st{min-height:148px;gap:7px!important;align-content:start;}
+.app .vw .st b{font-size:clamp(28px,2.5vw,36px)!important;}
+.app .vw .st .ib{width:44px;height:44px;border-radius:15px;background:rgba(100,206,251,.12);color:#8ee4ff;border:1px solid rgba(100,206,251,.22);}
+.app .vw .cc{padding:12px!important;min-height:260px;display:flex;flex-direction:column;gap:4px;}
+.app .vw .cv{height:116px!important;min-height:116px;border-radius:16px!important;margin-bottom:12px!important;background:radial-gradient(circle at 18% 15%,rgba(100,206,251,.22),transparent 58%),linear-gradient(135deg,rgba(100,206,251,.1),rgba(135,100,255,.1),rgba(10,14,23,.8))!important;}
+.app .vw .cb{padding:2px 6px 8px!important;}
+.app .vw .cb b{font-size:18px!important;line-height:1.25;}
+.app .vw .cc .bar{margin-top:auto!important;height:6px!important;}
+.app .vw .bn{min-height:174px!important;margin-bottom:26px!important;padding:clamp(24px,3vw,36px)!important;border-radius:26px!important;background:radial-gradient(ellipse at 80% 20%,rgba(100,206,251,.18),transparent 36%),linear-gradient(120deg,rgba(17,40,58,.96),rgba(12,14,25,.95))!important;}
+.app .vw .bn::after{background:linear-gradient(90deg,rgba(5,9,15,.35),rgba(5,9,15,.08))!important;}
+.app .vw .bn h1{font-size:clamp(29px,3vw,40px)!important;letter-spacing:-.055em!important;}
+.app .vw .bn p{font-size:14px;line-height:1.65;color:rgba(240,247,255,.75)!important;}
+.app .vw .li{gap:15px!important;padding:16px 0!important;}
+.app .vw .li>div:nth-child(2){line-height:1.45;}
+.app .vw .li b{font-size:14px;}
+.app .vw .tb{flex:none;}
+.app .vw .btn{transition:transform .2s ease,border-color .2s ease,background .2s ease;}
+.app .vw .btn:hover{transform:translateY(-2px);}
+.app .vw .btn.pri{background:linear-gradient(105deg,#e9fbff,#8edfff)!important;color:#07111a!important;border:0!important;box-shadow:0 8px 24px rgba(100,206,251,.15)!important;}
+.app .vw .fi{margin-top:7px;border-radius:13px!important;padding:12px 14px!important;}
+.app .vw details{padding:15px 0;border-bottom:1px solid rgba(255,255,255,.09);}
+.app .vw details summary{cursor:pointer;font-weight:650;}
+.app .vw details p{margin:10px 0 0;color:rgba(235,241,250,.7);line-height:1.65;}
+.app .vw .cal{gap:8px!important;}
+.app .vw .dy{min-height:72px;border-radius:12px!important;border:1px solid rgba(255,255,255,.08)!important;background:rgba(255,255,255,.025)!important;}
+.app .vw .dy:hover,.app .vw .dy.t{border-color:rgba(100,206,251,.6)!important;background:rgba(100,206,251,.09)!important;}
+.app .vw .row{gap:12px;}
+.app .vw .row.wrap{row-gap:12px!important;}
+.app .vw .mu{line-height:1.6;}
+@media(max-width:760px){.app #view{padding:20px 15px!important}.app .vw .g{gap:15px!important}.app .vw .h3{margin-top:25px}.app .vw .cc{min-height:235px}.app .vw .cv{height:100px!important;min-height:100px}.app .vw .st{min-height:125px}.app .vw .bn{min-height:155px!important;padding:22px!important}.app .vw .li{flex-wrap:wrap}.app .vw .li>button{margin-left:auto}.app .vw .dy{min-height:52px;padding:7px 4px!important}}
+@media(prefers-reduced-motion:reduce){.app .vw .btn,.app .vw .g>*{animation:none!important;transition:none!important}}
+
+</style>
+<style>
+/* NUEVA PALETA DEL CAMPUS INTERIOR: azul noche + violeta + cian.
+   Se limita a .app; la portada principal y su video quedan intactos. */
+.app{
+ --bg:#090d16;--bg2:#101625;--card:rgba(21,26,41,.72);--card2:rgba(27,34,53,.88);
+ --bd:rgba(163,177,211,.14);--bd2:rgba(163,177,211,.25);--tx:#f4f6ff;--mu:#a7b1c8;
+ --a:#a78bfa;--v:#8b5cf6;--m:#22d3ee;--g:linear-gradient(125deg,#8b5cf6 0%,#6d7cff 52%,#22d3ee 100%);
+ --l1:rgba(139,92,246,.14);--l2:rgba(34,211,238,.07);
+ background:radial-gradient(ellipse at 78% 0%,rgba(139,92,246,.07),transparent 34%),#090d16;
+}
+.app .side{background:rgba(9,13,22,.97)!important;border-right:1px solid rgba(167,139,250,.15)!important;box-shadow:8px 0 34px rgba(0,0,0,.12)}
+.app .side .lg{padding-bottom:25px}
+.app .lm{background:linear-gradient(135deg,#8b5cf6,#22d3ee)!important;box-shadow:0 7px 22px rgba(139,92,246,.25)!important}
+.app .lg span span{color:#22d3ee!important}
+.app .nv{border:1px solid transparent;transition:background .2s,border-color .2s,color .2s,transform .2s}
+.app .nv:hover{background:rgba(139,92,246,.09)!important;border-color:rgba(139,92,246,.13);color:#fff!important}
+.app .nv.on{background:linear-gradient(105deg,rgba(139,92,246,.24),rgba(34,211,238,.07))!important;border-color:rgba(167,139,250,.18)!important;color:#fff!important}
+.app .nv.on svg{color:#a78bfa!important}
+.app .nv.on::before{background:linear-gradient(180deg,#a78bfa,#22d3ee)!important}
+.app .top{background:rgba(9,13,22,.78)!important;border-bottom:1px solid rgba(167,177,200,.12)!important}
+.app .top .ico{border-radius:12px!important}
+.app .mn{background:#090d16!important}
+.app .vw .card,.app .vw .stat,.app .vw .panel,.app .vw .tile,.app .vw .box{
+ background:linear-gradient(145deg,rgba(24,30,47,.92),rgba(15,20,33,.9))!important;
+ border-color:rgba(167,177,200,.16)!important;box-shadow:0 16px 38px rgba(0,0,0,.19),inset 0 1px 0 rgba(255,255,255,.025)!important;
+}
+.app .vw .card:hover{border-color:rgba(167,139,250,.32)!important}
+.app .vw .ib{background:rgba(139,92,246,.13)!important;color:#b9a4ff!important;border-color:rgba(167,139,250,.23)!important}
+.app .vw .st .ib{background:rgba(139,92,246,.13)!important;color:#b9a4ff!important;border-color:rgba(167,139,250,.23)!important}
+.app .vw .btn.pri,.app .vw .btn.pri:hover{background:linear-gradient(110deg,#a78bfa,#22d3ee)!important;color:#080d17!important;border:0!important;box-shadow:0 8px 24px rgba(139,92,246,.17)!important}
+.app .vw .cc{background:linear-gradient(145deg,rgba(24,30,47,.98),rgba(13,18,30,.98))!important;border-color:rgba(167,177,200,.17)!important}
+.app .vw .cc:hover{border-color:rgba(167,139,250,.55)!important;box-shadow:0 20px 40px -24px rgba(139,92,246,.55)!important}
+.app .vw .cv{background:radial-gradient(circle at 18% 15%,rgba(139,92,246,.25),transparent 58%),linear-gradient(135deg,rgba(139,92,246,.13),rgba(34,211,238,.08),rgba(10,14,23,.8))!important}
+.app .vw .bar>span{background:linear-gradient(90deg,#8b5cf6,#22d3ee)!important}
+.app .vw .bn{background:radial-gradient(ellipse at 80% 20%,rgba(139,92,246,.22),transparent 38%),linear-gradient(120deg,rgba(20,25,43,.98),rgba(10,15,25,.97))!important;border-color:rgba(167,139,250,.2)!important}
+.app .vw .dy:hover,.app .vw .dy.t{border-color:rgba(139,92,246,.55)!important;background:rgba(139,92,246,.1)!important}
+.app .vw .fi:focus{border-color:#a78bfa!important;box-shadow:0 0 0 3px rgba(139,92,246,.12)!important;outline:none}
+.app .vw .chip{letter-spacing:.01em}
+.app .campus-atmosphere-shade{background:linear-gradient(180deg,rgba(9,13,22,.68),rgba(9,13,22,.88))!important}
+@media(max-width:760px){.app #view{padding:19px 14px!important}.app .vw .g{gap:16px!important}}
+@media(prefers-reduced-motion:reduce){.app *{scroll-behavior:auto!important;transition:none!important}}
+
+</style>
+</head><body>
+<div id="root"></div><div id="ts" aria-live="polite"></div>
+<script>
+/* ===== DATOS DE DEMOSTRACIÓN (separados de la lógica; un backend los reemplazaría) ===== */
+const DEMO={
+student:{name:'Camila Rivas',career:'Ingeniería en Sistemas',id:'DEMO-0001'},
+C:[
+{id:'dis',n:'Matemáticas Discretas',t:'Dra. Marta Solís',ic:'sigma',c:'#9d6bff',p:72,d:'Lógica, conjuntos, grafos y árboles: las bases formales del razonamiento computacional.',u:['Lógica proposicional','Conjuntos y relaciones','Grafos','Árboles y recorridos']},
+{id:'web',n:'Programación Web',t:'Ing. Luis Barrios',ic:'code-2',c:'#f043b8',p:58,d:'Diseño y construcción de aplicaciones web modernas con HTML, CSS y JavaScript.',u:['HTML semántico','CSS y diseño adaptable','JavaScript','Consumo de APIs']},
+{id:'bd',n:'Bases de Datos',t:'MSc. Elena Cruz',ic:'database',c:'#c084fc',p:41,d:'Modelado relacional, SQL y diseño de bases de datos para sistemas de información.',u:['Modelo entidad-relación','SQL básico','Normalización','Transacciones']},
+{id:'pro',n:'Administración de Proyectos',t:'MBA. Rafael Mejía',ic:'users',c:'#ff6b9d',p:85,d:'Planificación, cronogramas y gestión de equipos para entregar proyectos de software a tiempo.',u:['Alcance y requisitos','Cronograma y Gantt','Gestión de riesgos','Seguimiento y cierre']},
+{id:'ing',n:'Inglés Técnico',t:'Lic. Ana Gómez',ic:'languages',c:'#ff9f6b',p:23,d:'Comprensión y redacción de documentación técnica en inglés.',u:['Vocabulario técnico','Lectura de manuales','Redacción de informes']}],
+T:[
+{id:1,c:'dis',n:'Taller de lógica proposicional',due:'2026-10-12',st:'pendiente',pts:20},
+{id:2,c:'web',n:'Proyecto: portafolio personal',due:'2026-10-16',st:'pendiente',pts:40},
+{id:3,c:'bd',n:'Diagrama entidad-relación',due:'2026-10-09',st:'pendiente',pts:25},
+{id:4,c:'pro',n:'Acta de constitución del proyecto',due:'2026-10-05',st:'entregada',pts:15},
+{id:5,c:'ing',n:'Glosario técnico',due:'2026-10-02',st:'vencida',pts:10},
+{id:6,c:'web',n:'Ejercicios de flexbox',due:'2026-09-28',st:'entregada',pts:10},
+{id:7,c:'pro',n:'Diagrama de Gantt del proyecto',due:'2026-10-26',st:'pendiente',pts:20}],
+E:[
+{id:1,c:'dis',n:'Parcial I',d:'2026-10-15',h:'10:00',dur:'90 min'},
+{id:2,c:'bd',n:'Cuestionario de SQL',d:'2026-10-20',h:'14:00',dur:'45 min'},
+{id:3,c:'pro',n:'Parcial I',d:'2026-10-28',h:'08:30',dur:'90 min'}],
+X:[{d:'2026-10-22',n:'Feria de ciencias y tecnología'},{d:'2026-10-27',n:'Taller de orientación académica'}],
+G:{dis:[['Quiz 1',88,15],['Taller 1',92,20]],web:[['Ejercicios HTML',95,10],['Ejercicios flexbox',90,10]],bd:[['Quiz modelado',78,15]],pro:[['Informe 1',94,15],['Quiz 2',86,15]],ing:[]},
+M:[
+{id:1,c:'dis',n:'Guía de lógica y conjuntos',tp:'PDF',sz:'Material de estudio',video:'lógica proposicional y teoría de conjuntos explicadas',content:'Guía de estudio: Lógica y conjuntos\\n\\n1. Proposiciones: enunciados que pueden ser verdaderos o falsos.\\n2. Conectores: negación, conjunción, disyunción, implicación y equivalencia.\\n3. Conjuntos: elementos, pertenencia, subconjuntos, unión, intersección y complemento.\\n4. Relaciones: pares ordenados y propiedades básicas.\\n\\nPractica construyendo tablas de verdad y resolviendo operaciones entre conjuntos.'},
+{id:2,c:'dis',n:'Clase 4: grafos y árboles',tp:'Video',sz:'Video educativo',video:'grafos y árboles en matemáticas discretas explicados'},
+{id:3,c:'web',n:'Introducción a flexbox',tp:'PPT',sz:'Material de estudio',video:'CSS Flexbox tutorial español',content:'Introducción a Flexbox\\n\\n• display: flex activa el modelo flexible.\\n• justify-content organiza los elementos en el eje principal.\\n• align-items alinea en el eje transversal.\\n• flex-wrap permite que los elementos pasen a otra línea.\\n• gap controla el espacio entre elementos.\\n\\nPráctica: crea una fila de tarjetas responsive usando display:flex, gap y flex-wrap.'},
+{id:4,c:'web',n:'Guía de accesibilidad web',tp:'PDF',sz:'Material de estudio',video:'accesibilidad web WCAG español tutorial',content:'Guía de accesibilidad web\\n\\n• Usa HTML semántico y encabezados en orden.\\n• Añade texto alternativo útil a las imágenes.\\n• Asegura contraste suficiente entre texto y fondo.\\n• Permite navegar mediante teclado y muestra el foco.\\n• Asocia etiquetas con los campos de formularios.\\n• No comuniques información solo mediante color.'},
+{id:5,c:'bd',n:'Introducción a SQL',tp:'Video',sz:'Video educativo',video:'introducción a SQL desde cero español SELECT WHERE JOIN'},
+{id:6,c:'bd',n:'Normalización paso a paso',tp:'PDF',sz:'Material de estudio',video:'normalización de bases de datos primera segunda tercera forma normal español',content:'Normalización de bases de datos\\n\\n1FN: cada atributo contiene valores atómicos y no hay grupos repetidos.\\n2FN: cumple 1FN y cada atributo no clave depende de toda la clave candidata.\\n3FN: cumple 2FN y evita dependencias transitivas de atributos no clave.\\n\\nObjetivo: reducir redundancia y evitar anomalías al insertar, actualizar o eliminar datos.'},
+{id:7,c:'pro',n:'Planificación con Gantt: presentación',tp:'PPT',sz:'Material de estudio',video:'diagrama de Gantt gestión de proyectos explicado español',content:'Planificación con diagrama de Gantt\\n\\n• Define tareas y entregables.\\n• Estima duración y fechas de inicio y fin.\\n• Identifica dependencias y ruta crítica cuando corresponda.\\n• Asigna responsables y revisa avances.\\n• Actualiza el cronograma cuando cambie el alcance.'},
+{id:8,c:'ing',n:'Technical writing basics',tp:'Doc',sz:'Material de estudio',video:'technical writing basics tutorial for students',content:'Technical Writing Basics\\n\\n• Identify the audience and purpose.\\n• Use clear, concise language.\\n• Organize information with descriptive headings.\\n• Prefer active voice and consistent terminology.\\n• Review instructions, examples, and formatting.'}],
+N:[{id:1,n:'La entrega de Diagrama entidad-relación vence mañana.',w:'Hoy',r:0},{id:2,n:'Se publicó la nota de Acta de constitución del proyecto.',w:'Ayer',r:0},{id:3,n:'Nueva clase en video disponible en Matemáticas Discretas.',w:'Hace 2 días',r:0},{id:4,n:'Recordatorio: Parcial I de Matemáticas Discretas el 15 de octubre.',w:'Hace 3 días',r:1}]};
+const {C,T,E,X,G,M,N}=DEMO;
+// Registro académico de demostración: cada asignatura mantiene sus propias ponderaciones.
+const GRADEBOOK={
+ dis:{items:[
+  {name:'Quiz 1 · Lógica proposicional',type:'Cuestionario',date:'2026-09-18',score:88,weight:15,comment:'Buen manejo de las tablas de verdad. Revisa los ejercicios de equivalencia lógica.'},
+  {name:'Taller 1 · Conjuntos',type:'Trabajo',date:'2026-09-25',score:92,weight:20,comment:'Trabajo ordenado y bien argumentado.'},
+  {name:'Foro · Aplicaciones de grafos',type:'Foro',date:'2026-10-05',score:95,weight:10,comment:'Aporte claro; excelente interacción con tus compañeros.'},
+  {name:'Examen parcial I',type:'Examen',date:'2026-10-15',score:null,weight:25,comment:''},
+  {name:'Proyecto de cierre',type:'Proyecto',date:'2026-10-30',score:null,weight:30,comment:''}]},
+ web:{items:[
+  {name:'Práctica HTML semántico',type:'Tarea',date:'2026-09-16',score:95,weight:10,comment:'Estructura correcta y etiquetas bien utilizadas.'},
+  {name:'Ejercicios de flexbox',type:'Tarea',date:'2026-09-23',score:90,weight:10,comment:'Buen resultado. Puedes mejorar la adaptación a pantallas pequeñas.'},
+  {name:'Foro · Accesibilidad web',type:'Foro',date:'2026-10-02',score:94,weight:15,comment:'Participación pertinente y con ejemplos.'},
+  {name:'Diseño de landing page',type:'Proyecto',date:'2026-10-18',score:null,weight:30,comment:''},
+  {name:'Examen práctico',type:'Examen',date:'2026-10-28',score:null,weight:35,comment:''}]},
+ bd:{items:[
+  {name:'Quiz · Modelado relacional',type:'Cuestionario',date:'2026-09-19',score:78,weight:15,comment:'Repasa cardinalidades y normalización antes de la próxima evaluación.'},
+  {name:'Taller SQL básico',type:'Tarea',date:'2026-09-29',score:86,weight:20,comment:'Consultas correctas; cuida los nombres y alias de columnas.'},
+  {name:'Foro · Integridad de datos',type:'Foro',date:'2026-10-06',score:null,weight:10,comment:''},
+  {name:'Proyecto de base de datos',type:'Proyecto',date:'2026-10-24',score:null,weight:30,comment:''},
+  {name:'Examen SQL',type:'Examen',date:'2026-10-30',score:null,weight:25,comment:''}]},
+ pro:{items:[
+  {name:'Informe 1 · Acta de constitución',type:'Trabajo',date:'2026-09-20',score:94,weight:15,comment:'Documento completo y objetivos bien definidos.'},
+  {name:'Quiz 2 · Planificación',type:'Cuestionario',date:'2026-09-30',score:86,weight:15,comment:'Buen desempeño. Refuerza la ruta crítica y la estimación de tiempos.'},
+  {name:'Foro · Riesgos del proyecto',type:'Foro',date:'2026-10-08',score:90,weight:10,comment:'Argumentos claros y buena propuesta de mitigación.'},
+  {name:'Diagrama de Gantt',type:'Trabajo',date:'2026-10-26',score:null,weight:25,comment:''},
+  {name:'Proyecto final',type:'Proyecto',date:'2026-11-02',score:null,weight:35,comment:''}]},
+ ing:{items:[
+  {name:'Actividad · Technical vocabulary',type:'Tarea',date:'2026-09-22',score:91,weight:15,comment:'Buen vocabulario técnico. Sigue practicando la pronunciación.'},
+  {name:'Foro · My career goals',type:'Foro',date:'2026-10-03',score:null,weight:15,comment:''},
+  {name:'Presentación oral',type:'Exposición',date:'2026-10-17',score:null,weight:30,comment:''},
+  {name:'Examen escrito',type:'Examen',date:'2026-10-25',score:null,weight:40,comment:''}]}
+};
+const gradeStats=id=>{const items=GRADEBOOK[id].items,graded=items.filter(x=>x.score!==null),pending=items.filter(x=>x.score===null),gradedWeight=graded.reduce((s,x)=>s+x.weight,0),earned=graded.reduce((s,x)=>s+x.score*x.weight/100,0);return {items,graded,pending,gradedWeight,earned,average:gradedWeight?earned/(gradedWeight/100):null,accumulated:earned,remaining:items.filter(x=>x.score===null).reduce((s,x)=>s+x.weight,0)}};
+const gradeFmt=n=>n===null?'—':Number(n).toLocaleString('es-NI',{minimumFractionDigits:1,maximumFractionDigits:1});
+
+const NAV={estudiante:[['home','Inicio','layout-dashboard'],['courses','Mis asignaturas','book-open'],['tasks','Tareas y entregas','clipboard-check'],['exams','Exámenes','file-question'],['grades','Calificaciones','award'],['materials','Materiales','folder-open'],['calendar','Calendario','calendar-days'],['notifs','Notificaciones','bell'],['profile','Perfil','user-round'],['help','Ayuda y soporte','life-buoy']],docente:[],administrador:[]}; /* docente y administrador: estructura preparada, sin implementar */
+/*ART*/
+const ART={
+web:`<rect x="40" y="46" width="250" height="160" rx="14" fill="#0d0b16" stroke="#fff" stroke-opacity=".2"/><circle cx="58" cy="64" r="4" fill="#f43f8e"/><circle cx="72" cy="64" r="4" fill="#fbbf24"/><circle cx="86" cy="64" r="4" fill="#4ade80"/>${[[60,92,120,'#c084fc'],[76,110,150,'#f472b6'],[76,128,100,'#a78bfa'],[76,146,170,'#e9d5ff'],[60,164,70,'#c084fc'],[60,182,130,'#fb7185']].map(l=>`<rect x="${l[0]}" y="${l[1]}" width="${l[2]}" height="7" rx="3.5" fill="${l[3]}" opacity=".85"/>`).join('')}<rect x="250" y="92" width="190" height="130" rx="12" fill="#1a1530" stroke="#fff" stroke-opacity=".25"/><rect x="262" y="106" width="166" height="26" rx="6" fill="#8a5cff" opacity=".75"/><rect x="262" y="142" width="76" height="62" rx="6" fill="#fff" opacity=".1"/><rect x="348" y="142" width="80" height="28" rx="6" fill="#fff" opacity=".14"/><rect x="348" y="176" width="80" height="28" rx="6" fill="#f043b8" opacity=".6"/><text x="318" y="78" font-size="40" font-weight="700" fill="#fff" opacity=".9" font-family="monospace">&lt;/&gt;</text>`,
+bd:`${[0,1,2].map(i=>`<rect x="46" y="${54+i*58}" width="190" height="46" rx="10" fill="#0d0b16" stroke="#fff" stroke-opacity=".2"/><circle cx="66" cy="${77+i*58}" r="4.5" fill="${['#4ade80','#f043b8','#a78bfa'][i]}"/><rect x="82" y="${73+i*58}" width="110" height="8" rx="4" fill="#fff" opacity=".18"/><rect x="204" y="${73+i*58}" width="20" height="8" rx="4" fill="#fff" opacity=".3"/>`).join('')}<g transform="translate(266 80)"><rect width="170" height="140" rx="14" fill="#1a1530" stroke="#fff" stroke-opacity=".25"/>${[40,72,52,96,64,110].map((h,i)=>`<rect x="${14+i*25}" y="${126-h}" width="16" height="${h}" rx="5" fill="${i%2?'#f043b8':'#8a5cff'}" opacity=".9"/>`).join('')}</g><ellipse cx="410" cy="56" rx="26" ry="9" fill="#c084fc"/><path d="M384 56v26c0 5 12 9 26 9s26-4 26-9V56" fill="#8a5cff" opacity=".85"/>`,
+dis:`<g stroke="#fff" stroke-opacity=".35" stroke-width="2" fill="none"><path d="M120 190 200 100 300 160 380 80M200 100 150 74M300 160 250 220M300 160 400 200"/></g>${[[120,190],[200,100],[300,160],[380,80],[150,74],[250,220],[400,200]].map((p,i)=>`<circle cx="${p[0]}" cy="${p[1]}" r="${i%3?9:13}" fill="${i%2?'#f043b8':'#8a5cff'}" stroke="#fff" stroke-opacity=".6" stroke-width="2"/>`).join('')}<polygon points="40,236 90,170 140,236" fill="none" stroke="#e9d5ff" stroke-opacity=".5" stroke-width="2"/><text x="40" y="60" font-size="44" fill="#fff" opacity=".92" font-family="serif" font-style="italic">∀x ∃y</text><text x="300" y="248" font-size="28" fill="#e9d5ff" opacity=".75" font-family="serif">P ⇒ Q</text>`,
+ing:`<g transform="translate(318 54)"><circle r="62" cx="62" cy="62" fill="#1a1530" stroke="#fff" stroke-opacity=".4" stroke-width="2"/><ellipse cx="62" cy="62" rx="26" ry="62" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="2"/><path d="M0 62h124M10 32h104M10 92h104" stroke="#fff" stroke-opacity=".3" stroke-width="2" fill="none"/></g><rect x="34" y="50" width="220" height="72" rx="18" fill="#8a5cff"/><polygon points="80,122 112,122 76,150" fill="#8a5cff"/><rect x="170" y="164" width="250" height="58" rx="16" fill="#f043b8" opacity=".95"/><polygon points="370,222 394,222 392,246" fill="#f043b8" opacity=".95"/><text x="56" y="98" font-size="34" font-weight="700" fill="#fff" font-family="sans-serif">Hello!</text><text x="192" y="201" font-size="26" font-weight="700" fill="#fff" font-family="sans-serif">API reference</text>`,
+pro:`${[[0,150,'#8a5cff'],[40,170,'#c084fc'],[110,140,'#f043b8'],[170,150,'#8a5cff'],[210,130,'#ff6b9d']].map((r,i)=>`<rect x="40" y="${58+i*34}" width="52" height="10" rx="5" fill="#fff" opacity=".2"/><rect x="${110+r[0]}" y="${54+i*34}" width="${r[1]}" height="18" rx="9" fill="${r[2]}"/>`).join('')}<path d="M104 40V218" stroke="#fff" stroke-opacity=".2"/><polygon points="420,30 432,42 420,54 408,42" fill="#fbbf24"/>${[0,1,2].map(i=>`<circle cx="${52+i*26}" cy="238" r="13" fill="${['#f043b8','#8a5cff','#ff9f6b'][i]}" stroke="#14101f" stroke-width="3"/>`).join('')}`};
+const art=(id,c)=>'data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270"><defs><radialGradient id="a" cx=".2" cy="0" r="1.1"><stop offset="0" stop-color="${c}" stop-opacity=".75"/><stop offset=".6" stop-color="#150f26"/><stop offset="1" stop-color="#0a0910"/></radialGradient></defs><rect width="480" height="270" fill="url(#a)"/>${ART[id]}</svg>`);
+const COURSE_PHOTOS={
+web:'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=85',
+bd:'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=85',
+dis:'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=1200&q=85',
+ing:'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1200&q=85',
+pro:'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=85'};
+C.forEach(c=>c.img=COURSE_PHOTOS[c.id]||art(c.id,c.c));
+const im=(c,k='')=>''; // Imágenes decorativas desactivadas para mantener el campus limpio.
+const bn=(c,t,s)=>`<div class="bn">${im(c)}<div><h1>${t}</h1><p>${s}</p></div></div>`;
+const cont=c=>{const d=Math.min(Math.round(c.p/100*c.u.length),c.u.length-1);return`<button class="cn" data-a="course:${c.id}" style="--c:${c.c}">${im(c,'ci')}<span class="go">${ic('play')} Continuar</span><div><span class="chip" style="--c:#fff">Unidad ${d+1} de ${c.u.length}</span><h3>${c.u[d]}</h3><div class="sm" style="color:#cfc9e4">${c.n} · ${c.p}% completado</div><span class="bar"><span style="width:${c.p}%"></span></span></div></button>`};
+/*END*/
+const TODAY=new Date(2026,9,8),S={app:false,view:'home',cid:null,q:'',name:DEMO.student.name,cal:new Date(2026,9,1),f:{st:'todas',d:'todas',m:'Todos',g:'todos'}};
+const $=s=>document.querySelector(s),cn=id=>C.find(c=>c.id===id),ic=n=>`<i data-lucide="${n}"></i>`,L=()=>window.lucide&&lucide.createIcons();
+const fd=d=>new Date(d+'T00:00').toLocaleDateString('es',{day:'numeric',month:'short'});
+const col={pendiente:'var(--wa)',entregada:'var(--ok)',vencida:'var(--er)'};
+const chip=(t,c)=>`<span class="chip" style="--c:${c}">${t}</span>`;
+const emp=(i,t,m)=>`<div class="emp">${ic(i)}<b>${t}</b>${m}</div>`;
+const mean=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:null;
+const cavg=id=>mean(G[id].map(g=>g[1])),avg=()=>mean(C.map(c=>cavg(c.id)).filter(v=>v!==null));
+function toast(k,m){const e=document.createElement('div');e.className='ts';e.style.setProperty('--c',k==='ok'?'var(--ok)':k==='error'?'var(--er)':'var(--a)');e.textContent=m;$('#ts').append(e);setTimeout(()=>e.remove(),4000)}
+function modal(h){closeM();const o=document.createElement('div');o.className='ov'+(h.includes('auth-grid')?' auth-overlay':'');o.innerHTML=`<div class="md" role="dialog" aria-modal="true">${h}</div>`;o.onclick=e=>{if(e.target===o&&!o.classList.contains('auth-overlay'))closeM()};document.body.append(o);L();const f=o.querySelector('input,button');f&&f.focus()}
+function closeM(){document.querySelectorAll('.ov').forEach(o=>o.remove())}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
+/* ===== LANDING ===== */
+const cc=c=>`<button class="card cc" data-a="course:${c.id}" style="--c:${c.c}"><div class="cv">${im(c,'ci')}<span class="cvi">${ic(c.ic)}</span><span class="cvp">${c.p}%</span></div><div class="cb"><b>${c.n}</b><div class="mu sm">${c.t}</div><span class="bar"><span style="width:${c.p}%"></span></span></div></button>`;
+function landing(){S.app=false;$('#root').innerHTML=`
+<header class="nav jaka-design-nav"><a href="#top" class="lg"><em class="lm">J</em><span>JAKA <span>virtual</span></span></a><nav class="jaka-design-links"><a href="#top">Inicio</a><a href="#ventajas">Ventajas</a><a href="#asignaturas">Asignaturas</a><a href="#herramientas">Herramientas</a><a href="#ventajas">Cómo funciona <span aria-hidden="true">↗</span></a></nav><div class="row jaka-design-actions"><button class="btn sm" data-a="loginm">Iniciar sesión</button><button class="btn sm pri" data-a="loginm">Entrar al campus <span aria-hidden="true">↗</span></button></div><button class="jaka-menu-toggle" type="button" aria-label="Mostrar menú" aria-expanded="false" onclick="document.querySelector('.jaka-design-links').classList.toggle('mobile-open');this.setAttribute('aria-expanded',this.getAttribute('aria-expanded')!=='true')">☰</button></header>
+<section class="hero jaka-design-hero" id="top"><video class="hero-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true"><source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260813_115057_94c3699b-0fd1-4124-bcf3-3626bb8c1f77.mp4" type="video/mp4"></video><div class="hero-shade"></div>
+<div class="jaka-design-content">
+<div class="jaka-design-top"><p>Una plataforma para aprender, crear y avanzar con confianza.</p><p class="jaka-design-stat"><strong>Todo tu mundo académico.</strong><br>En un solo lugar.</p></div>
+<div class="jaka-design-main"><div class="hero-kicker">TU CAMPUS · TU PRÓXIMO NIVEL</div><h1><span>Tu aula,</span><span class="shine">tu futuro.</span></h1><p class="hero-copy">Organiza tus asignaturas, entrega tus tareas y sigue tu progreso académico desde un campus diseñado para ayudarte a llegar más lejos.</p><div class="row wrap jaka-design-cta"><button class="btn pri" data-a="loginm">Entrar al campus <span class="arrow">↗</span></button><button class="btn jaka-secondary" data-a="loginm">Ya tengo una cuenta</button></div></div>
+<div class="jaka-design-bottom"><span>APRENDE. CREA. AVANZA.</span><span>JAKA VIRTUAL <i>·</i> TU FORMACIÓN, EN UN SOLO LUGAR</span></div>
+</div></section>
+<section class="sec" id="ventajas"><div class="semester-head"><div><div class="semester-eyebrow"><span></span> TU EXPERIENCIA ACADÉMICA</div><h2>Todo tu semestre<br><span>en un solo lugar.</span></h2><p class="semester-lead">Tu espacio para avanzar con claridad: encuentra tus asignaturas, organiza tus entregas y descubre cuánto has progresado, sin perderte entre pestañas.</p></div><div class="semester-note"><span class="semester-note-icon">✦</span><div><b>Tu próximo paso empieza aquí.</b><p>Entra, encuentra lo que necesitas y continúa a tu ritmo.</p></div></div></div><div class="semester-flow"><div class="semester-flow-item"><span>01</span><div><b>Organiza</b><small>Tus asignaturas y materiales, siempre a mano.</small></div></div><i aria-hidden="true">→</i><div class="semester-flow-item"><span>02</span><div><b>Avanza</b><small>Consulta tareas, fechas y próximas actividades.</small></div></div><i aria-hidden="true">→</i><div class="semester-flow-item"><span>03</span><div><b>Comprueba tu progreso</b><small>Revisa tus calificaciones y lo que ya lograste.</small></div></div></div><div class="g bento semester-cards">
+${[['calendar-check','Todo bajo control','Consulta tareas y fechas importantes para saber qué toca hacer y cuándo.','01'],['book-open-check','Tus clases, más cerca','Encuentra tus asignaturas y vuelve a los contenidos cuando los necesites.','02'],['chart-no-axes-combined','Tu progreso a la vista','Sigue tu avance y consulta tus calificaciones en un espacio organizado.','03'],['layers-3','Tus recursos reunidos','Accede a materiales y herramientas académicas desde un mismo lugar.','04']].map(a=>`<div class="card rv semester-card"><div class="semester-card-top"><span class="ib">${ic(a[0])}</span><span class="semester-card-num">${a[3]}</span></div><h3>${a[1]}</h3><p class="mu">${a[2]}</p><div class="semester-card-line"></div></div>`).join('')}</div><div class="semester-bottom"><span><span class="semester-pulse"></span> Un campus pensado para acompañarte durante todo el semestre</span><span>APRENDE <b>·</b> ORGANIZA <b>·</b> AVANZA</span></div></section>
+<section class="sec" id="asignaturas"><h2>Una vista previa de tus asignaturas</h2><p>Así se ve el campus del estudiante. Pulsa una asignatura para entrar.</p><div class="g g3">${C.slice(0,4).map(c=>`<div class="rv">${cc(c)}</div>`).join('')}</div></section>
+<section class="sec" id="herramientas"><h2>Herramientas académicas</h2><p>Lo que necesitas para estudiar, entregar y consultar tus notas.</p><div class="row wrap">${[['calendar-days','Calendario','calendar'],['clipboard-check','Tareas','tasks'],['file-question','Cuestionarios','exams'],['award','Calificaciones','grades'],['folder-open','Materiales','materials'],['life-buoy','Soporte','help']].map(t=>`<button class="btn rv" data-a="enter:${t[2]}">${ic(t[0])} ${t[1]}</button>`).join('')}</div></section>
+<footer class="foot"><div><div class="lg" style="color:var(--tx)"><em class="lm">J</em><span>JAKA <span>virtual</span></span></div><p style="margin-top:8px;max-width:40ch">Campus virtual de demostración. Universidad JAKA es un nombre ilustrativo.</p></div><div><a href="#ventajas">Ventajas</a><a href="#asignaturas">Asignaturas</a><a href="#herramientas">Herramientas</a></div><div><a data-a="enter:help">Ayuda y soporte</a><a data-a="loginm">Iniciar sesión</a></div></footer>`;
+L();const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});document.querySelectorAll('.rv').forEach(e=>io.observe(e));scrollTo(0,0)}
+const rm=matchMedia('(prefers-reduced-motion:reduce)');
+addEventListener('scroll',()=>{if(S.app||rm.matches)return;requestAnimationFrame(()=>document.querySelectorAll('[data-px]').forEach(e=>e.style.transform=`translateY(${scrollY*e.dataset.px*-1}px)`))},{passive:true});
+/* ===== APP ===== */
+function shell(){S.app=true;const nv=NAV.estudiante,nu=N.filter(n=>!n.r).length;$('#root').innerHTML=`<div class="app"><aside class="side" id="side"><div class="lg"><em class="lm">J</em><span class="tx">JAKA <span>virtual</span></span></div>${nv.map(n=>`<button class="nv" data-a="go:${n[0]}" data-v="${n[0]}">${ic(n[2])}<span class="tx">${n[1]}</span>${n[0]==='notifs'?`<span class="badge tx" id="bg" ${nu?'':'hidden'}>${nu}</span>`:''}</button>`).join('')}<div style="flex:1"></div><button class="me" data-a="go:profile" aria-label="Ver perfil"><span class="av">${S.name.split(' ').map(w=>w[0]).join('').slice(0,2)}</span><span class="tx"><b>${S.name}</b><span class="mu sm">Estudiante</span></span></button><button class="nv" data-a="logout">${ic('log-out')}<span class="tx">Salir</span></button></aside>
+<div class="mn"><div class="campus-atmosphere" aria-hidden="true"><video autoplay muted loop playsinline preload="auto"><source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4" type="video/mp4"></video><div class="campus-atmosphere-shade"></div><svg class="campus-jellies" viewBox="0 0 760 760" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="jakaJelly" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e9ffff"/><stop offset=".45" stop-color="#76dfff"/><stop offset="1" stop-color="#7c78ff"/></linearGradient><filter id="jakaGlow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g stroke="url(#jakaJelly)" stroke-width="2.2" opacity=".82" filter="url(#jakaGlow)"><path d="M350 245 C300 310 390 350 330 420 S380 490 325 560"/><path d="M380 245 C420 315 345 360 395 420 S350 500 410 585"/><path d="M410 245 C470 310 405 375 450 425 S410 500 455 550"/><path d="M195 430 C155 480 215 520 180 575 S205 625 185 665"/><path d="M220 430 C250 490 205 530 240 575 S225 625 255 660"/><path d="M535 460 C500 500 550 540 520 580 S540 625 525 665"/><path d="M560 460 C590 505 545 540 580 585 S565 625 590 655"/><path d="M300 238 Q380 110 460 238 Q450 275 380 280 Q310 275 300 238Z" fill="url(#jakaJelly)" fill-opacity=".22"/><path d="M145 425 Q205 350 260 425 Q250 460 205 465 Q160 460 145 425Z" fill="url(#jakaJelly)" fill-opacity=".22"/><path d="M485 455 Q550 375 615 455 Q600 490 550 495 Q500 490 485 455Z" fill="url(#jakaJelly)" fill-opacity=".22"/></g></svg></div><div class="top"><button class="ico" data-a="side" aria-label="Contraer o expandir menú">${ic('panel-left')}</button><label class="sr">${ic('search')}<input id="q" type="search" placeholder="Buscar asignaturas y materiales" aria-label="Buscar"></label><div style="flex:1"></div><button class="ico" data-a="theme" aria-label="Cambiar tema">${ic('sun-moon')}</button><button class="ico" data-a="go:notifs" aria-label="Notificaciones">${ic('bell')}<span class="pd" id="pd" ${nu?'':'hidden'}></span></button></div><main id="view"></main></div></div>`;view()}
+function view(keep){const y=scrollY;$('#view').innerHTML=`<div class="vw">${V[S.view]()}</div>`;document.querySelectorAll('.nv[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v===S.view||(S.view==='course'&&b.dataset.v==='courses')));L();if(!keep)scrollTo(0,0);else scrollTo(0,y);const b=$('#bg');if(b){const n=N.filter(x=>!x.r).length;b.textContent=n;b.hidden=!n}const d=$('#pd');if(d)d.hidden=!N.some(x=>!x.r);}
+const tl=t=>`<div class="li"><span class="tb">${im(cn(t.c),'ci')}<span>${ic(cn(t.c).ic)}</span></span><div><b>${t.n}</b><div class="mu sm">${cn(t.c).n} · vence ${fd(t.due)} · ${t.pts} pts</div></div>${chip(t.st,col[t.st])}<button class="btn sm" data-a="tdet:${t.id}">Detalles</button></div>`;
+const mt=m=>`<div class="li"><span class="tb">${im(cn(m.c),'ci')}<span>${ic(m.tp==='Video'?'play':'file-text')}</span></span><div style="min-width:0;flex:1"><b>${m.n}</b><div class="mu sm">${cn(m.c).n} · ${m.tp} · ${m.sz}</div></div><button class="btn sm" data-a="mat:${m.id}">${m.tp==='Video'?'Ver video':'Abrir'}</button><button class="btn sm" data-a="dl:${m.id}">${ic('download')} Descargar</button></div>`;
+const sel=(k,o)=>`<select data-f="${k}" aria-label="Filtro">${o.map(x=>`<option value="${x[0]}" ${S.f[k]===x[0]?'selected':''}>${x[1]}</option>`).join('')}</select>`;
+const V={
+home(){const p=T.filter(t=>t.st==='pendiente').sort((a,b)=>a.due>b.due?1:-1),a=avg();return`
+<div class="hh">${im(cn('web'),'hi')}<div><div class="mu sm">Jueves 8 de octubre</div><h1>Buenas tardes, ${S.name.split(' ')[0]}</h1><p class="mu">Tienes ${p.length} actividades pendientes y un examen el ${fd(E[0].d)}.</p></div><button class="btn pri" data-a="course:web">${ic('play')} Continuar con Programación Web</button></div>
+<div class="g gs">${[['Promedio',a?a.toFixed(1):'—','award'],['Pendientes',p.length,'clipboard-check'],['Asignaturas activas',C.length,'book-open'],['Próximo examen',fd(E[0].d),'file-question']].map(s=>`<div class="card st"><span class="ib">${ic(s[2])}</span><span class="mu sm">${s[0]}</span><b>${s[1]}</b></div>`).join('')}</div>
+<h2 class="h3">Continuar estudiando</h2><div class="g g2">${[cn('web'),cn('bd')].map(cont).join('')}</div><h2 class="h3">Mis asignaturas</h2><div class="g g3">${C.map(cc).join('')}</div>
+<div class="g g2" style="margin-top:8px"><div><h2 class="h3">Actividades pendientes</h2><div class="card">${p.slice(0,4).map(tl).join('')||emp('party-popper','Todo al día','No tienes tareas pendientes.')}</div></div>
+<div><h2 class="h3">Próximos exámenes y eventos</h2><div class="card">${E.map(e=>`<div class="li"><span class="ib" style="--c:${cn(e.c).c}">${ic('file-question')}</span><div><b>${cn(e.c).n}: ${e.n}</b><div class="mu sm">${fd(e.d)} · ${e.h}</div></div></div>`).join('')}${X.map(e=>`<div class="li"><span class="ib">${ic('calendar-heart')}</span><div><b>${e.n}</b><div class="mu sm">${fd(e.d)}</div></div></div>`).join('')}</div></div></div>
+<div class="row sb"><h2 class="h3">Avisos recientes</h2><button class="btn sm" data-a="go:notifs">Ver todas</button></div><div class="card">${N.filter(n=>!n.r).slice(0,3).map(n=>`<div class="li"><span class="ib">${ic('bell')}</span><div><b>${n.n}</b><div class="mu sm">${n.w}</div></div></div>`).join('')||emp('bell-off','Sin avisos nuevos','Te avisaremos cuando haya novedades.')}</div><h2 class="h3">Accesos rápidos</h2><div class="row wrap">${[['tasks','Tareas','clipboard-check'],['calendar','Calendario','calendar-days'],['materials','Materiales','folder-open'],['grades','Notas','award'],['help','Soporte','life-buoy']].map(q=>`<button class="btn" data-a="go:${q[0]}">${ic(q[2])} ${q[1]}</button>`).join('')}</div>`},
+courses(){return`<h1 class="t">Mis asignaturas</h1><p class="mu" style="margin-bottom:20px">Selecciona una para ver unidades, recursos y actividades.</p><div class="g g3">${C.map(cc).join('')}</div>`},
+course(){const c=cn(S.cid),dn=Math.round(c.p/100*c.u.length),ms=M.filter(m=>m.c===c.id),ts=T.filter(t=>t.c===c.id);return`
+<button class="btn sm" data-a="go:courses">${ic('arrow-left')} Asignaturas</button><div style="height:14px"></div>${bn(c,c.n,c.u.length+' unidades · '+c.p+'% completado')}
+<div class="card" style="margin-top:14px;--c:${c.c}"><div class="row"><span class="ib">${ic(c.ic)}</span><div><h1 class="t" style="font-size:24px">${c.n}</h1><div class="mu sm">Docente: ${c.t}</div></div></div><p style="margin:14px 0 8px;max-width:70ch">${c.d}</p><div class="row sb sm"><span class="mu">Tu progreso</span><b>${c.p}%</b></div><span class="bar"><span style="width:${c.p}%"></span></span></div>
+<div class="g g2"><div><h2 class="h3">Unidades de estudio</h2><div class="card">${c.u.map((u,i)=>`<div class="li"><span class="ib" style="--c:${i<dn?'var(--ok)':'var(--mu)'}">${ic(i<dn?'check':'circle-dashed')}</span><div><b>${u}</b><div class="mu sm">${i<dn?'Completada':'Pendiente'}</div></div></div>`).join('')}</div></div>
+<div><h2 class="h3">Recursos</h2><div class="card">${ms.map(mt).join('')||emp('folder-open','Sin recursos','El docente aún no publicó materiales.')}</div></div></div>
+<h2 class="h3">Actividades</h2><div class="card">${ts.map(tl).join('')||emp('clipboard-check','Sin actividades','No hay tareas en esta asignatura.')}</div>`},
+tasks(){const t0=T.filter(t=>(S.f.st==='todas'||t.st===S.f.st)&&(S.f.d==='todas'||(S.f.d==='sem'?(new Date(t.due+'T00:00')-TODAY)/864e5>=-7&&(new Date(t.due+'T00:00')-TODAY)/864e5<=7:t.due.startsWith('2026-10')))).sort((a,b)=>a.due>b.due?1:-1);
+return`${bn(cn('pro'),'Tareas y entregas','Entrega a tiempo y revisa el estado de cada actividad.')}<div class="row wrap" style="margin:16px 0">${sel('st',[['todas','Todos los estados'],['pendiente','Pendientes'],['entregada','Entregadas'],['vencida','Vencidas']])}${sel('d',[['todas','Todas las fechas'],['sem','Esta semana'],['mes','Este mes']])}</div><div class="card">${t0.map(tl).join('')||emp('search-x','Sin resultados','Ninguna tarea coincide con estos filtros. Prueba con otros.')}</div>`},
+exams(){return`${bn(cn('dis'),'Exámenes y cuestionarios','Fechas, horarios y duración de tus próximas evaluaciones.')}<div class="g g3" style="margin-top:20px">${E.map(e=>`<div class="card" style="--c:${cn(e.c).c}"><span class="ib">${ic('file-question')}</span><h3 style="margin:12px 0 2px;font-size:17px">${e.n}</h3><div class="mu sm">${cn(e.c).n}</div><div class="row sm" style="margin:12px 0">${ic('calendar')} ${fd(e.d)} · ${e.h} · ${e.dur}</div><button class="btn sm" data-a="edet:${e.id}">Ver detalles</button></div>`).join('')}</div>`},
+grades(){const all=C.map(c=>({c,s:gradeStats(c.id)})),graded=all.reduce((n,x)=>n+x.s.graded.length,0),pending=all.reduce((n,x)=>n+x.s.pending.length,0),avgNow=mean(all.map(x=>x.s.average).filter(x=>x!==null));return`${bn(cn('bd'),'Calificaciones','Consulta tus resultados por asignatura y abre cada registro para ver el detalle de tus evaluaciones.')}<div class="grade-summary"><div class="grade-stat"><div class="gs-label">${ic('chart-no-axes-combined')} Promedio registrado</div><strong>${avgNow===null?'—':gradeFmt(avgNow)}</strong><small>Media de asignaturas con notas</small></div><div class="grade-stat"><div class="gs-label">${ic('check-circle-2')} Evaluaciones calificadas</div><strong>${graded}</strong><small>Con nota publicada</small></div><div class="grade-stat"><div class="gs-label">${ic('clock-3')} Por evaluar</div><strong>${pending}</strong><small>Incluye próximas actividades</small></div><div class="grade-stat"><div class="gs-label">${ic('book-open')} Asignaturas</div><strong>${C.length}</strong><small>Registros académicos disponibles</small></div></div><div class="row sb wrap" style="margin:0 0 13px"><div><h2 class="h3" style="margin:0 0 3px">Resumen por asignatura</h2><p class="mu sm">Selecciona una fila para consultar tareas, foros, trabajos y exámenes.</p></div><span class="chip">${C.length} asignaturas</span></div><div class="grade-table-wrap"><table class="grade-table"><thead><tr><th>Asignatura / docente</th><th>Promedio actual</th><th>Acumulado ponderado</th><th>Evaluaciones</th><th>Estado</th><th></th></tr></thead><tbody>${all.map(({c,s})=>`<tr data-a="gradedetail:${c.id}" tabindex="0" role="button" aria-label="Ver registro de ${c.n}" style="--c:${c.c}"><td><div class="grade-course"><span class="grade-course-icon">${ic(c.ic)}</span><span><b>${c.n}</b><small>${c.t}</small></span></div></td><td><b>${s.average===null?'—':gradeFmt(s.average)}</b><div class="grade-progress"><span style="width:${s.average||0}%"></span></div></td><td><b>${gradeFmt(s.accumulated)}</b><small class="mu">de 100 puntos posibles</small></td><td>${s.graded.length} / ${s.items.length}</td><td>${s.pending.length?chip(s.pending.length+' pendientes','var(--wa)'):chip('Completa','var(--ok)')}</td><td><span class="grade-open">Ver registro ${ic('arrow-up-right')}</span></td></tr>`).join('')}</tbody></table></div><p class="grade-note" style="margin-top:13px">${ic('info')} Las notas y ponderaciones que aparecen son datos de demostración para diseñar la plataforma. El promedio actual se calcula únicamente con las evaluaciones calificadas y sus pesos; las actividades sin nota todavía no suman al acumulado.</p>`},
+gradedetail(){const c=cn(S.cid),s=gradeStats(S.cid);if(!c||!s)return`<button class="btn" data-a="go:grades">Volver a calificaciones</button>`;const weightDone=s.gradedWeight;return`<div class="grade-detail-actions"><button class="btn sm" data-a="go:grades">${ic('arrow-left')} Todas las calificaciones</button><span class="chip">Registro de evaluación</span></div><div class="grade-detail-hero" style="--c:${c.c}"><div class="grade-detail-head"><div><div class="mu sm">${c.n}</div><h1 class="t" style="margin:3px 0 5px">Registro de calificaciones</h1><p class="mu">Docente: ${c.t}</p></div><span class="grade-course-icon" style="width:48px;height:48px">${ic(c.ic)}</span></div><div class="grade-summary" style="margin-bottom:0"><div class="grade-stat"><div class="gs-label">${ic('award')} Promedio actual</div><strong>${s.average===null?'—':gradeFmt(s.average)}</strong><small>Sobre 100 · solo notas publicadas</small></div><div class="grade-stat"><div class="gs-label">${ic('target')} Puntos acumulados</div><strong>${gradeFmt(s.accumulated)}</strong><small>Contribución ponderada a la nota final</small></div><div class="grade-stat"><div class="gs-label">${ic('percent')} Peso evaluado</div><strong>${weightDone}%</strong><small>De 100% de la asignatura</small></div><div class="grade-stat"><div class="gs-label">${ic('calendar-clock')} Por completar</div><strong>${s.pending.length}</strong><small>${s.remaining}% de ponderación pendiente</small></div></div></div><div class="row sb wrap" style="margin:22px 0 13px"><div><h2 class="h3" style="margin:0 0 3px">Evaluaciones de la asignatura</h2><p class="mu sm">Cada actividad muestra su nota, peso y comentario del docente.</p></div><span class="chip">${s.items.length} actividades</span></div><div class="grade-table-wrap"><table class="grade-detail-table"><thead><tr><th>Actividad</th><th>Tipo</th><th>Fecha</th><th>Nota</th><th>Ponderación</th><th>Aporte obtenido</th><th>Comentario del docente</th></tr></thead><tbody>${s.items.map(it=>`<tr><td>${it.name}</td><td><span class="grade-type">${it.type}</span></td><td>${fd(it.date)}</td><td><span class="grade-score ${it.score===null?'pending':''}">${it.score===null?'Pendiente':gradeFmt(it.score)+'/100'}</span></td><td>${it.weight}%</td><td><b>${it.score===null?'—':gradeFmt(it.score*it.weight/100)+' pts'}</b></td><td><div class="grade-comment">${it.comment||'<span class="mu">Sin comentario publicado.</span>'}</div></td></tr>`).join('')}<tr class="grade-total-row"><td colspan="4"><b>TOTAL DE LA ASIGNATURA</b><small class="mu" style="display:block;margin-top:4px">Suma de ponderaciones y aportes de las actividades calificadas</small></td><td><b>${s.items.reduce((n,it)=>n+it.weight,0)}%</b></td><td><b>${gradeFmt(s.accumulated)} pts</b><small class="mu" style="display:block;margin-top:4px">de 100 puntos</small></td><td><b>${s.pending.length?`${s.pending.length} pendiente(s)`:'Todas calificadas'}</b></td></tr></tbody></table></div><h2 class="h3">Resumen de ponderaciones</h2><div class="card"><div class="row sb"><span class="mu">Peso total de las evaluaciones</span><b>${s.items.reduce((n,it)=>n+it.weight,0)}%</b></div><div class="grade-progress" style="height:7px;margin:9px 0 15px"><span style="width:${s.items.reduce((n,it)=>n+it.weight,0)}%"></span></div><div class="row sb"><span class="mu">Ponderación ya evaluada</span><b>${weightDone}%</b></div><div class="grade-progress" style="height:7px;margin:9px 0 15px"><span style="width:${weightDone}%"></span></div><div class="row sb"><span class="mu">Ponderación pendiente</span><b>${s.remaining}%</b></div><p class="grade-note" style="margin-top:14px">El acumulado se calcula sumando nota × ponderación ÷ 100 de cada evaluación calificada. El promedio actual normaliza ese acumulado por el porcentaje que ya fue evaluado. Los pendientes no se cuentan como cero.</p></div>`},
+materials(){const m=M.filter(x=>S.f.m==='Todos'||x.tp===S.f.m);return`${bn(cn('web'),'Materiales educativos','Documentos, presentaciones y videos de todas tus asignaturas.')}<div style="margin:16px 0">${sel('m',[['Todos','Todos los tipos'],['PDF','Documentos PDF'],['PPT','Presentaciones'],['Video','Videos'],['Doc','Documentos']])}</div><div class="card">${m.map(mt).join('')||emp('folder-x','Sin materiales','No hay recursos de este tipo todavía.')}</div>`},
+calendar(){const y=S.cal.getFullYear(),m=S.cal.getMonth(),n=new Date(y,m+1,0).getDate(),off=(new Date(y,m,1).getDay()+6)%7;let h=`<div class="row sb" style="margin:16px 0"><button class="btn sm" data-a="cal:-1" aria-label="Mes anterior">${ic('chevron-left')}</button><h2 style="font-size:20px;text-transform:capitalize">${S.cal.toLocaleDateString('es',{month:'long',year:'numeric'})}</h2><button class="btn sm" data-a="cal:1" aria-label="Mes siguiente">${ic('chevron-right')}</button></div><div class="cal mu sm">${['L','M','X','J','V','S','D'].map(d=>`<div style="text-align:center">${d}</div>`).join('')}</div><div class="cal" style="margin-top:6px">`;
+for(let i=0;i<off;i++)h+='<div class="dy z"></div>';for(let d=1;d<=n;d++){const k=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;h+=`<button class="dy ${k==='2026-10-08'?'t':''}" data-a="day:${k}"><b>${d}</b><div>${evs(k).map(e=>`<span class="dot" style="--c:${e.c}"></span>`).join('')}</div></button>`}return`${bn(cn('ing'),'Calendario académico','Entregas, exámenes y eventos del mes en un solo lugar.')}${h}</div>`},
+notifs(){return`<div class="row sb wrap"><h1 class="t">Notificaciones</h1><button class="btn sm" data-a="readall">Marcar todas como leídas</button></div><div class="card" style="margin-top:16px">${N.map(n=>`<div class="li"><span class="ib" style="--c:${n.r?'var(--mu)':'var(--a)'}">${ic('bell')}</span><div><b style="font-weight:${n.r?500:700}">${n.n}</b><div class="mu sm">${n.w}</div></div>${n.r?'':`<button class="btn sm" data-a="read:${n.id}">Marcar leída</button>`}</div>`).join('')}</div>`},
+profile(){const s=DEMO.student;return`<h1 class="t">Perfil del estudiante</h1><div class="g g2" style="margin-top:20px"><div class="card"><div class="row"><span class="ib" style="width:56px;height:56px;font:700 20px var(--fd)">${S.name.split(' ').map(w=>w[0]).join('').slice(0,2)}</span><div><b>${S.name}</b><div class="mu sm">${s.career} · ${s.id}</div></div></div><label style="margin-top:18px">Nombre<input class="fi" id="nm" value="${S.name}"></label><button class="btn pri" data-a="savename">Guardar cambios</button></div><div class="card"><b>Rol y acceso</b><p class="mu" style="margin:8px 0">Estás en el panel de estudiante en modo demostración. Los paneles de docente y administrador quedan preparados en la estructura de datos, sin implementar.</p>${chip('Estudiante','var(--a)')}</div></div>`},
+help(){return`${bn(cn('ing'),'Ayuda y soporte técnico','Resuelve dudas frecuentes o escribe al equipo de soporte.')}<div class="g g2" style="margin-top:20px"><div class="card"><b>Preguntas frecuentes</b>${[['¿Cómo entrego una tarea?','Abre Tareas y entregas, pulsa Detalles en la actividad y luego Entregar.'],['¿Dónde veo mis notas?','En Calificaciones, por asignatura y con tu promedio general.'],['¿Puedo cambiar el tema?','Sí, con el botón de sol y luna de la barra superior.']].map(f=>`<details><summary>${f[0]}</summary><p>${f[1]}</p></details>`).join('')}</div>
+<div class="card"><b>Escribir a soporte</b><label style="margin-top:12px">Asunto<select class="fi" id="hs"><option>Problema de acceso</option><option>Error en una tarea</option><option>Otro</option></select></label><label>Mensaje<textarea class="fi" id="hm" rows="4" placeholder="Describe qué ocurrió y en qué pantalla"></textarea></label><button class="btn pri" data-a="help">Enviar mensaje</button></div></div>`},
+search(){const q=S.q.toLowerCase(),cs=C.filter(c=>(c.n+c.t).toLowerCase().includes(q)),ms=M.filter(m=>m.n.toLowerCase().includes(q));return`<h1 class="t">Resultados para “${S.q.replace(/</g,'&lt;')}”</h1>${cs.length||ms.length?`<h2 class="h3">Asignaturas</h2><div class="g g3">${cs.map(cc).join('')||'<p class="mu">Sin coincidencias.</p>'}</div><h2 class="h3">Materiales</h2><div class="card">${ms.map(mt).join('')||'<p class="mu">Sin coincidencias.</p>'}</div>`:emp('search-x','Sin resultados','Prueba con el nombre de una asignatura, un docente o un material.')}`}};
+const evs=k=>[...T.filter(t=>t.due===k).map(t=>({c:cn(t.c).c,n:'Entrega: '+t.n})),...E.filter(e=>e.d===k).map(e=>({c:cn(e.c).c,n:`${e.n} (${cn(e.c).n}) · ${e.h}`})),...X.filter(e=>e.d===k).map(e=>({c:'var(--v)',n:e.n}))];
+/* ===== ACCIONES ===== */
+function busy(b,t){b.disabled=true;b.innerHTML=ic('loader-2')+' '+t;L()}
+const A={
+go(v){S.view=v;if(innerWidth<=860)$('#side').classList.remove('open');view()},gradedetail(id){S.cid=id;S.view='gradedetail';view()},
+enter(v){A.loginm()},course(id){if(!S.app){A.loginm();return}S.cid=id;S.view='course';view()},
+logout(){landing()},theme(){const r=document.documentElement,d=r.dataset.theme?r.dataset.theme==='dark':!matchMedia('(prefers-color-scheme:light)').matches;r.dataset.theme=d?'light':'dark';try{localStorage.setItem('jk-th',r.dataset.theme)}catch(e){}},
+side(){const s=$('#side');s.classList.toggle(innerWidth<=860?'open':'c')},
+loginm(){modal(`<div class="auth-grid"><section class="auth-visual"><video autoplay muted loop playsinline aria-hidden="true"><source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260506_081238_406ed0e3-5d83-436e-a512-0bbff7ec5b95.mp4" type="video/mp4"></video><div class="auth-visual-content"><div class="auth-brand"><span class="auth-brand-mark"></span>JAKA <span style="color:#8ce8f0">virtual</span></div><div><h2>Tu próximo<br>capítulo empieza aquí.</h2><p>Accede a tu espacio académico y lleva tus ideas al siguiente nivel.</p></div><div class="auth-steps"><div class="auth-step active"><b>1</b> Identifica tu cuenta</div><div class="auth-step"><b>2</b> Entra a tu campus</div><div class="auth-step"><b>3</b> Sigue avanzando</div></div></div></section><section class="auth-form"><button class="auth-close" data-a="close" aria-label="Cerrar">×</button><h3 id="auth-title">Iniciar sesión</h3><p class="auth-sub" id="auth-sub">Qué bueno tenerte de vuelta. Entra a tu campus.</p><div class="auth-socials"><button class="auth-social" type="button" data-a="socialdemo">◉ Google</button><button class="auth-social" type="button" data-a="socialdemo">⌘ GitHub</button></div><div class="auth-divider">O continúa con tu correo</div><div class="auth-fields"><div class="auth-field" id="first-wrap" style="display:none"><label for="first">Nombre</label><input id="first" placeholder="Tu nombre" autocomplete="given-name"></div><div class="auth-field" id="last-wrap" style="display:none"><label for="last">Apellido</label><input id="last" placeholder="Tu apellido" autocomplete="family-name"></div><div class="auth-field full"><label for="em">Correo electrónico</label><input id="em" type="email" placeholder="nombre@correo.com" autocomplete="email"></div><div class="auth-field full"><label for="pw">Contraseña</label><div class="auth-pass"><input id="pw" type="password" placeholder="Ingresa tu contraseña" autocomplete="current-password"><button type="button" class="auth-eye" data-a="togglepw" aria-label="Mostrar contraseña">◉</button></div><span class="auth-help">Usa al menos 8 caracteres.</span></div></div><button class="auth-submit" id="auth-submit" data-a="login">Iniciar sesión</button><p class="auth-footer"><span id="auth-footer-text">¿Todavía no tienes cuenta?</span> <button id="auth-switch" type="button" data-a="signupmode">Crear cuenta</button></p><p class="auth-help" style="text-align:center;margin-top:12px">Demostración académica · no se guardan contraseñas.</p></section></div>`)},
+ signupmode(){const t=$('#auth-title');const create=t.textContent!=='Crear cuenta';t.textContent=create?'Crear cuenta':'Iniciar sesión';$('#auth-sub').textContent=create?'Completa tus datos para comenzar.':'Qué bueno tenerte de vuelta. Entra a tu campus.';$('#first-wrap').style.display=create?'grid':'none';$('#last-wrap').style.display=create?'grid':'none';$('#auth-submit').textContent=create?'Crear cuenta':'Iniciar sesión';$('#auth-submit').dataset.a=create?'register':'login';$('#auth-footer-text').textContent=create?'¿Ya formas parte del equipo?':'¿Todavía no tienes cuenta?';$('#auth-switch').textContent=create?'Iniciar sesión':'Crear cuenta';$('#pw').autocomplete=create?'new-password':'current-password';},
+ togglepw(){const p=$('#pw');p.type=p.type==='password'?'text':'password'},
+ socialdemo(){toast('info','El acceso con Google/GitHub es solo visual en esta demo.')},
+ register(x,b){const e=$('#em').value,p=$('#pw').value;if(!$('#first').value.trim()||!$('#last').value.trim()||!/^\S+@\S+\.\S+$/.test(e)||p.length<8){toast('error','Completa nombre, apellido, correo válido y contraseña de 8 caracteres.');return}S.name=$('#first').value.trim()+' '+$('#last').value.trim();busy(b,'Creando…');setTimeout(()=>{closeM();shell();toast('ok','Cuenta de demostración creada. ¡Bienvenido a JAKA Virtual!')},700)},
+login(x,b){const e=$('#em').value;if(!/\S+@\S+\.\S+/.test(e)||!$('#pw').value){toast('error','Escribe un correo válido y una contraseña.');return}busy(b,'Entrando…');setTimeout(()=>{closeM();shell();toast('ok','Sesión iniciada en modo demostración')},900)},
+tdet(id){const t=T.find(x=>x.id==id),c=cn(t.c);modal(`<h2 style="font-size:20px">${t.n}</h2><p class="mu" style="margin:6px 0 14px">${c.n} · ${c.t}</p><div class="row wrap">${chip(t.st,col[t.st])}${chip('Vence '+fd(t.due),'var(--mu)')}${chip(t.pts+' puntos','var(--a)')}</div><p style="margin:14px 0" class="mu">Entrega en demostración: el envío se registra solo en esta sesión y no se guarda en ningún servidor.</p><div class="row"><button class="btn" data-a="close">Cerrar</button>${t.st==='entregada'?'':`<button class="btn pri" data-a="entregar:${t.id}">${t.st==='vencida'?'Intentar entrega tardía':'Entregar'}</button>`}</div>`)},
+entregar(id,b){const t=T.find(x=>x.id==id);busy(b,'Enviando…');setTimeout(()=>{if(t.st==='vencida'){toast('error','El plazo cerró. Escribe al docente para pedir una prórroga.');b.disabled=false;b.textContent='Reintentar';return}t.st='entregada';closeM();toast('ok','Tarea entregada: '+t.n);view(true)},1000)},
+close(){closeM()},
+edet(id){const e=E.find(x=>x.id==id);modal(`<h2 style="font-size:20px">${cn(e.c).n}: ${e.n}</h2><p class="mu" style="margin:8px 0 16px">${fd(e.d)} a las ${e.h}. Duración: ${e.dur}. Docente: ${cn(e.c).t}.</p><div class="row"><button class="btn" data-a="close">Cerrar</button><button class="btn pri" data-a="remind:${e.id}">${ic('bell-plus')} Recordármelo</button></div>`)},
+remind(id,b){busy(b,'Guardando…');setTimeout(()=>{closeM();toast('ok','Recordatorio activado para este examen')},700)},
+mat(id){const m=M.find(x=>x.id==id);if(!m)return;if(m.tp==='Video'){const q=encodeURIComponent(m.video||m.n);window.open('https://www.youtube.com/results?search_query='+q,'_blank','noopener,noreferrer');toast('ok','Abriendo videos educativos sobre: '+m.n);return}const body=m.content||('Material de estudio: '+m.n+'\\n\\nRecurso de demostración de JAKA Virtual.');const safe=body.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\\n/g,'<br>');modal(`<h2 style="font-size:20px">${m.n}</h2><p class="mu" style="margin:6px 0 14px">${cn(m.c).n} · ${m.tp}</p><div class="card" style="margin-bottom:16px;max-height:42vh;overflow:auto;line-height:1.7">${safe}</div><p class="mu sm" style="margin-bottom:16px">Este es un recurso de demostración descargable; puedes usarlo para probar el apartado mientras incorporamos los documentos oficiales.</p><div class="row"><button class="btn" data-a="close">Cerrar</button><button class="btn pri" data-a="dl:${m.id}">${ic('download')} Descargar material</button></div>`)},
+dl(id,b){const m=M.find(x=>x.id==id);if(!m)return;const text=m.content||('Material de estudio: '+m.n);const blob=new Blob([text],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=m.n.normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').replace(/[^a-zA-Z0-9]+/g,'_')+'.txt';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);closeM();toast('ok','Material descargado. Recuerda que es contenido de demostración.')},
+cal(d){S.cal=new Date(S.cal.getFullYear(),S.cal.getMonth()+ +d,1);view(true)},
+day(k){const e=evs(k);modal(`<h2 style="font-size:20px;margin-bottom:12px">${fd(k)}</h2>${e.map(x=>`<div class="li"><span class="dot" style="--c:${x.c}"></span><div>${x.n}</div></div>`).join('')||emp('calendar-check','Día libre','No hay entregas, exámenes ni eventos.')}<button class="btn" style="margin-top:14px" data-a="close">Cerrar</button>`)},
+read(id){N.find(n=>n.id==id).r=1;view(true)},readall(){N.forEach(n=>n.r=1);view(true);toast('ok','Todas las notificaciones quedaron como leídas')},
+savename(x,b){const v=$('#nm').value.trim();if(!v){toast('error','El nombre no puede estar vacío.');return}busy(b,'Guardando…');setTimeout(()=>{S.name=v;view(true);toast('ok','Perfil actualizado en esta sesión')},700)},
+help(x,b){if(!$('#hm').value.trim()){toast('error','Escribe un mensaje antes de enviarlo.');return}busy(b,'Enviando…');setTimeout(()=>{view(true);toast('ok','Mensaje registrado (demostración: aún no llega a ningún equipo de soporte)')},900)}};
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const[a,x]=b.dataset.a.split(':');A[a]&&A[a](x,b)});
+document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('tr[data-a^="gradedetail:"]')){e.preventDefault();const[a,x]=e.target.dataset.a.split(':');A[a]&&A[a](x,e.target)}});
+document.addEventListener('change',e=>{const k=e.target.dataset.f;if(k){S.f[k]=e.target.value;view(true)}});
+document.addEventListener('input',e=>{if(e.target.id!=='q')return;S.q=e.target.value;if(S.q.trim()){S.view='search';view(true)}else A.go('home')});
+try{const t=localStorage.getItem('jk-th');if(t)document.documentElement.dataset.theme=t}catch(e){}
+landing();
+</script><script src="/jaka-auth.js"></script><script src="/jaka-aula.js"></script></body></html>
+

@@ -1,0 +1,17 @@
+{
+  "name": "jaka_virtual_proyecto",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.3.0",
+    "msnodesqlv8": "^5.6.0",
+    "mssql": "^12.7.4"
+  }
+}
